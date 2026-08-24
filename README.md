@@ -12,7 +12,7 @@ Este repo trae Docker para el dedicated, configs listas y un asistente web que g
 
 - Docker y Docker Compose
 - ~15 GB de disco (la primera bajada del dedicated son ~10 GB)
-- UDP **y** TCP 27015 abiertos hacia la máquina
+- UDP **y** TCP 27015 abiertos hacia la máquina (UDP es el juego; TCP hace falta para RCON)
 - 2 vCPU / 4 GB RAM sobran para 8 en campaña
 
 Un listen server («Local») con `-insecure` sirve para una noche. SourceMod no lo soporta en serio y si el host se cae, se acaba la run.
@@ -42,15 +42,32 @@ server/addons-drop/addons/sourcemod/gamedata/abm.txt
 
 4. Reinicia el contenedor. El entrypoint copia `addons-drop` encima del dedicated en cada arranque.
 
-En la consola del servidor tiene que salir L4DToolZ *Running* y ABM en `sm plugins list`:
+En la consola del servidor tiene que salir L4DToolZ *Running* y ABM en `sm plugins list`. `status` debe mostrar el servidor **unreserved**.
 
-```text
-meta list
-sm plugins list
-status
+## Consola del dedicated
+
+`status`, `meta list` y `sm plugins list` son comandos de **srcds**, no de Linux. La pestaña de logs y Docker Desktop → Exec no sirven (Exec abre un `/bin/sh`).
+
+En la máquina **donde corre el contenedor**:
+
+```bash
+docker attach l4d2-8plus
 ```
 
-`status` debe mostrar el servidor **unreserved**.
+Escribe el comando y Enter. Para salir **sin apagar** el server: `Ctrl+P` y luego `Ctrl+Q`. `Ctrl+C` mata srcds.
+
+Eso no es «solo local». Funciona en esta PC y en la otra: `docker attach` habla con Docker de *ese* host. Si el dedicated está en otro equipo, entra por SSH (o siéntate ahí) y lanza el mismo comando.
+
+Desde el **juego** (cualquier PC de la red o Internet), con el puerto TCP 27015 abierto:
+
+```text
+rcon_password TU_SRCDS_RCONPW
+rcon status
+rcon meta list
+rcon sm plugins list
+```
+
+RCON es lo práctico cuando tú juegas en un sitio y el server está en otro.
 
 ## Cómo entran los jugadores
 
