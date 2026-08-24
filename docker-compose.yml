@@ -18,6 +18,9 @@ services:
       SRCDS_PW: ${SRCDS_PW:-}
       SRCDS_STEAMGROUP: ${SRCDS_STEAMGROUP:-0}
       FORCE_ADDON_INSTALL: ${FORCE_ADDON_INSTALL:-0}
+      STEAM_USER: ${STEAM_USER:-anonymous}
+      STEAM_PASS: ${STEAM_PASS:-}
+      STEAM_GUARD: ${STEAM_GUARD:-}
     volumes:
       - l4d2-game:/home/steam/l4d2
       - ./server/addons-drop:/home/steam/addons-drop:ro
