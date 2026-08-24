@@ -1,0 +1,27 @@
+services:
+  l4d2:
+    build: ./server
+    container_name: l4d2-8plus
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    ports:
+      - "${SRCDS_PORT:-27015}:27015/udp"
+      - "${SRCDS_PORT:-27015}:27015/tcp"
+    environment:
+      SRCDS_HOSTNAME: ${SRCDS_HOSTNAME:-Los 8 de Mercy}
+      SRCDS_MAXPLAYERS: ${SRCDS_MAXPLAYERS:-8}
+      SRCDS_STARTMAP: ${SRCDS_STARTMAP:-c8m1_apartment}
+      SRCDS_GAMEMODE: ${SRCDS_GAMEMODE:-coop}
+      SRCDS_REGION: ${SRCDS_REGION:-255}
+      SRCDS_RCONPW: ${SRCDS_RCONPW:-cambia-esto}
+      SRCDS_PW: ${SRCDS_PW:-}
+      SRCDS_STEAMGROUP: ${SRCDS_STEAMGROUP:-0}
+      FORCE_ADDON_INSTALL: ${FORCE_ADDON_INSTALL:-0}
+    volumes:
+      - l4d2-game:/home/steam/l4d2
+      - ./server/addons-drop:/home/steam/addons-drop:ro
+    stop_grace_period: 20s
+
+volumes:
+  l4d2-game:

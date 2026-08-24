@@ -1,0 +1,3 @@
+Los 8 de Mercy
+Campaña coop con huecos extra. El 5º y siguientes: connect a la IP del host.
+Si ves Session is full, L4DToolZ no cargó. Si entras de espectador, falta ABM.
