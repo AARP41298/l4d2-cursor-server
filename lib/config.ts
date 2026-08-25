@@ -71,7 +71,7 @@ export const DEFAULT_SETTINGS: ServerSettings = {
   gamemode: "coop",
   startMap: "c8m1_apartment",
   region: 255,
-  port: 27015,
+  port: 27016,
   rconPassword: "",
   svPassword: "",
   steamGroup: "",
@@ -106,12 +106,16 @@ SRCDS_HOSTNAME=${quote(s.hostname)}
 SRCDS_MAXPLAYERS=${s.maxPlayers}
 SRCDS_STARTMAP=${s.startMap}
 SRCDS_GAMEMODE=${s.gamemode}
-SRCDS_PORT=${s.port}
+SRCDS_PORT=27015
+SRCDS_HOST_PORT=${s.port}
 SRCDS_REGION=${s.region}
 SRCDS_RCONPW=${quote(s.rconPassword || "cambia-esto")}
 SRCDS_PW=${quote(s.svPassword)}
 SRCDS_STEAMGROUP=${s.steamGroup}
 SRCDS_LAN=${s.publicServer ? "0" : "0"}
+# Mapas Workshop (colección del gist). Vacío = no baja mapas.
+WORKSHOP_IDS=2233971331
+FORCE_WORKSHOP_UPDATE=0
 `;
 }
 
@@ -210,6 +214,7 @@ export function generateComposeSnippet(s: ServerSettings): string {
       SRCDS_RCONPW: ${quote(s.rconPassword || "cambia-esto")}
       SRCDS_PW: ${quote(s.svPassword)}
       SRCDS_STEAMGROUP: "${s.steamGroup}"
+      WORKSHOP_IDS: "2233971331"
     volumes:
       - l4d2-game:/home/steam/l4d2
       - ./server/addons-drop:/home/steam/addons-drop:ro

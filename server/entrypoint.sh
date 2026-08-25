@@ -219,6 +219,8 @@ if [[ -d "$DROP/addons" ]]; then
   cp -a "$DROP/addons"/. "$GAME_DIR/left4dead2/addons/"
 fi
 
+/home/steam/install-workshop.sh "$GAME_DIR" || echo ">>> Workshop: se arranca sin actualizar mapas"
+
 cd "$GAME_DIR"
 # -ip 0.0.0.0 hace fallar SteamGameServer_Init en Docker (LAN only).
 export LD_LIBRARY_PATH="/usr/lib/i386-linux-gnu:${HOME}/.steam/sdk32:${LD_LIBRARY_PATH:-}"

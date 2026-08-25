@@ -12,6 +12,7 @@ RUN dpkg --add-architecture i386 \
         libcurl4:i386 \
         libsdl2-2.0-0:i386 \
         locales \
+        python3 \
         tar \
         gzip \
     && sed -i 's/^# *en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen \
@@ -31,7 +32,7 @@ RUN mkdir -p /home/steam/steamcmd /home/steam/l4d2 \
     && curl -fsSL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" \
         | tar -xz -C /home/steam/steamcmd
 
-COPY --chmod=755 entrypoint.sh install-addons.sh /home/steam/
+COPY --chmod=755 entrypoint.sh install-addons.sh install-workshop.sh expand-workshop.py /home/steam/
 COPY cfg /home/steam/defaults/cfg
 
 EXPOSE 27015/udp 27015/tcp

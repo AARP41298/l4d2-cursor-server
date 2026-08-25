@@ -6,8 +6,10 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "${SRCDS_PORT:-27015}:27015/udp"
-      - "${SRCDS_PORT:-27015}:27015/tcp"
+      # El cliente L4D2 en Windows se queda con UDP 27015. En la misma PC
+      # publica 27016 y conecta a ese puerto. Dentro del contenedor srcds sigue en 27015.
+      - "${SRCDS_HOST_PORT:-27016}:27015/udp"
+      - "${SRCDS_HOST_PORT:-27016}:27015/tcp"
     environment:
       SRCDS_HOSTNAME: ${SRCDS_HOSTNAME:-Los 8 de Mercy}
       SRCDS_MAXPLAYERS: ${SRCDS_MAXPLAYERS:-8}
@@ -21,6 +23,8 @@ services:
       STEAM_USER: ${STEAM_USER:-anonymous}
       STEAM_PASS: ${STEAM_PASS:-}
       STEAM_GUARD: ${STEAM_GUARD:-}
+      WORKSHOP_IDS: ${WORKSHOP_IDS:-2233971331}
+      FORCE_WORKSHOP_UPDATE: ${FORCE_WORKSHOP_UPDATE:-0}
     volumes:
       - l4d2-game:/home/steam/l4d2
       - ./server/addons-drop:/home/steam/addons-drop:ro

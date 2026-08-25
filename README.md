@@ -12,7 +12,7 @@ Este repo trae Docker para el dedicated, configs listas y un asistente web que g
 
 - Docker y Docker Compose
 - ~15 GB de disco (la primera bajada del dedicated son ~10 GB)
-- UDP **y** TCP 27015 abiertos hacia la máquina (UDP es el juego; TCP hace falta para RCON)
+- UDP **y** TCP **27016** abiertos hacia la máquina (en esta PC el juego ya ocupa el 27015; el dedicated se publica en 27016. UDP es el juego; TCP es RCON)
 - 2 vCPU / 4 GB RAM sobran para 8 en campaña
 
 Un listen server («Local») con `-insecure` sirve para una noche. SourceMod no lo soporta en serio y si el host se cae, se acaba la run.
@@ -58,7 +58,7 @@ Escribe el comando y Enter. Para salir **sin apagar** el server: `Ctrl+P` y lueg
 
 Eso no es «solo local». Funciona en esta PC y en la otra: `docker attach` habla con Docker de *ese* host. Si el dedicated está en otro equipo, entra por SSH (o siéntate ahí) y lanza el mismo comando.
 
-Desde el **juego** (cualquier PC de la red o Internet), con el puerto TCP 27015 abierto:
+Desde el **juego** (cualquier PC de la red o Internet), con el puerto TCP **27016** abierto:
 
 ```text
 rcon_password TU_SRCDS_RCONPW
@@ -69,21 +69,73 @@ rcon sm plugins list
 
 RCON es lo práctico cuando tú juegas en un sitio y el server está en otro.
 
+## Mapas Workshop
+
+En Windows usabas [Geam/steam_workshop_downloader](https://github.com/Geam/steam_workshop_downloader) contra la colección [2233971331](https://steamcommunity.com/sharedfiles/filedetails/?id=2233971331) ([gist](https://gist.github.com/AARP41298/f9ec90b2ecf594be24a90d98a5d8c4f0#for-mods)). Aquí SteamCMD hace lo mismo al arrancar.
+
+Por defecto `.env` trae:
+
+```env
+WORKSHOP_IDS=2233971331
+```
+
+Esa colección anida (SteamCMD las expande):
+
+| Campaña | Notas |
+|---------|--------|
+| Deathcraft II | Colección `122131588`. El autor pide no mezclar otros addons *mientras* la juegas. |
+| The Hive | Colección `3514750197` (6 partes). |
+| Resident Evil 1 | Casa Spencer. |
+| Resident Evil 2 Side A / B | `re` maps de Roku. |
+| Resident Evil 3 | Empieza en `re3m1` (Uptown). |
+| Tank Challenge | Supervivencia de tanks. |
+| Big Wat | 5 capítulos. |
+
+La primera vez son **varios GB**. Luego quedan en el volumen `l4d2-game`. Para re-bajar: `FORCE_WORKSHOP_UPDATE=1`.
+
+Para **no** bajar mapas: `WORKSHOP_IDS=` (vacío). Para añadir IDs sueltos o más colecciones:
+
+```env
+WORKSHOP_IDS=2233971331,122131588
+```
+
+Cuando termine el log (`>>> Workshop: N addon(s)`), en la consola srcds (`docker attach` o RCON):
+
+```text
+maps *
+changelevel re3m1
+```
+
+Los clientes necesitan esos addons (suscritos en Workshop, o la descarga del dedicated con `sv_consistency 0` ya puesto). El server sigue arrancando en un mapa oficial (`SRCDS_STARTMAP`) aunque el Workshop falle.
+
 ## Cómo entran los jugadores
+
+`status` muestra **tres IPs**. Es normal; cada una sirve para una cosa:
+
+| Lo que ves | Ejemplo | Quién la usa |
+|------------|---------|----------------|
+| `udp/ip` del contenedor | `172.19.0.2:27015` | Nadie. Es la red interna de Docker. |
+| `public` (Steam) | `189.243.210.111:27016` | Amigos **fuera** de tu casa, con el puerto reenviado. |
+| IP de Windows | `192.168.68.106` | PCs en tu Wi‑Fi / LAN. |
+
+Si el juego está **en la misma PC que Docker**, no uses la pública ni el puerto 27015: `left4dead2.exe` ya escucha UDP 27015 y se come los paquetes. En consola del cliente (`~`):
+
+```text
+connect 127.0.0.1:27016
+```
+
+O la LAN del Windows:
+
+```text
+connect 192.168.68.106:27016
+```
+
+Otra PC en casa: `connect 192.168.68.106:27016`. Por Internet: `connect 189.243.210.111:27016` (UDP **y** TCP 27016 del router a `192.168.68.106`).
 
 El lobby de Valve no conoce un dedicated de 8 en campaña.
 
-- **Hasta 8:** el host puede usar la mutación de Workshop *8 Player Lobby*, settings en Campaign, servidor *Best Available Dedicated*, y en consola:
-
-  ```text
-  mm_dedicated_force_servers TU.IP.PUBLICA:27015
-  ```
-
-- **Siempre funciona (y es obligatorio desde el 9º):**
-
-  ```text
-  connect TU.IP.PUBLICA:27015
-  ```
+- **Hasta 8:** el host puede usar la mutación de Workshop *8 Player Lobby*, settings en Campaign, servidor *Best Available Dedicated*, y en consola (`mm_dedicated_force_servers` con la **misma** IP que usarías en `connect`).
+- **Siempre funciona (y es obligatorio desde el 9º):** `connect` como arriba.
 
 Si hay `sv_password`, primero `password la-clave` y luego `connect`.
 

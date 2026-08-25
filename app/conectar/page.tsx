@@ -44,7 +44,7 @@ export default function ConectarPage() {
             </ol>
             <CodeBlock
               filename="consola del host"
-              code="mm_dedicated_force_servers TU.IP.PUBLICA:27015"
+              code="mm_dedicated_force_servers TU.IP.PUBLICA:27016"
             />
             <p>
               Si el lobby se va a un oficial, no pegaste el force o el
@@ -63,20 +63,30 @@ export default function ConectarPage() {
           </CardHeader>
           <CardContent className="grid gap-3 text-sm leading-relaxed text-muted-foreground">
             <p>
-              Activa la consola en Opciones → Teclado. El 5º (o el 9º) escribe:
+              Activa la consola en Opciones → Teclado. Elige la IP según
+              dónde esté el juego:
             </p>
             <CodeBlock
-              filename="consola del cliente"
-              code="connect TU.IP.PUBLICA:27015"
+              filename="misma PC que Docker"
+              code="connect 127.0.0.1:27016"
+            />
+            <CodeBlock
+              filename="otra PC en tu LAN"
+              code="connect 192.168.68.106:27016"
+            />
+            <CodeBlock
+              filename="amigos por Internet"
+              code="connect TU.IP.PUBLICA:27016"
             />
             <p>
-              Si hay <code className="text-foreground">sv_password</code>,
-              primero{" "}
-              <code className="text-foreground">
-                password la-contraseña
-              </code>{" "}
-              y luego connect. En casa, abre UDP y TCP 27015 hacia la máquina
-              Docker.
+              No uses la IP <code className="text-foreground">172.x</code> del
+              contenedor ni la pública desde la misma casa (el router no
+              suele devolver el NAT). Si hay{" "}
+              <code className="text-foreground">sv_password</code>, primero{" "}
+              <code className="text-foreground">password la-contraseña</code>{" "}
+              y luego connect. En el router, UDP y TCP 27016 hacia la máquina
+              Docker. En la misma PC que el juego no uses 27015: el cliente
+              ya lo tiene ocupado.
             </p>
           </CardContent>
         </Card>
