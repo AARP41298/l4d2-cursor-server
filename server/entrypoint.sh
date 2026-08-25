@@ -205,12 +205,18 @@ sv_hibernate_when_empty 0
 motd_enabled 1
 
 sm_cvar survivor_limit ${MAXPLAYERS}
+sm_cvar l4d_perkmod_forcerandomperks 1
 
 exec banned_user.cfg
 exec banned_ip.cfg
 writeid
 writeip
 EOF
+
+PERKMOD_CFG="$CFG_DIR/sourcemod/perkmod.cfg"
+if [[ -f "$PERKMOD_CFG" ]]; then
+  sed -i 's/l4d_perkmod_forcerandomperks "0"/l4d_perkmod_forcerandomperks "1"/' "$PERKMOD_CFG"
+fi
 
 DROP="/home/steam/addons-drop"
 if [[ -d "$DROP/addons" ]]; then

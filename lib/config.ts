@@ -162,6 +162,7 @@ sv_hibernate_when_empty 0
 
 sm_cvar survivor_limit ${Math.min(s.maxPlayers, 24)}
 sm_cvar z_max_player_zombies ${s.gamemode === "versus" ? Math.min(s.maxPlayers, 18) : 4}
+sm_cvar l4d_perkmod_forcerandomperks 1
 
 exec banned_user.cfg
 exec banned_ip.cfg
