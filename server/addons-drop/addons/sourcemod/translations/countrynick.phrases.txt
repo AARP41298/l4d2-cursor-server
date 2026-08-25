@@ -1,9 +1,14 @@
 "Phrases"
-{
-	"Announcer country of joining player"
-	{
-		"#format"		"{1:N},{2:s}"
-		"en"			"{1} connected from {2}."
-		"es"			"{1} se conectó desde {2}."
-	}
+{    
+    "Announcer country found"
+    {
+        "#format"   "{1:N},{2:s}"
+        "en"        "{1} from {2} joined the game"
+    }
+    
+    "Announcer country not found"
+    {
+        "#format"   "{1:N}"
+        "en"        "{1} from a distant planet joined the game"
+    }
 }
