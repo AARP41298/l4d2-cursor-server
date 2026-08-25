@@ -213,9 +213,14 @@ writeid
 writeip
 EOF
 
-PERKMOD_CFG="$CFG_DIR/sourcemod/perkmod.cfg"
+# Perkmod AutoExecConfig carga cfg/sourcemod/perkmod2.cfg DESPUÉS de server.cfg
+# y pisa el sm_cvar. Si el archivo ya existe en el volumen, forzamos 1 ahí.
+PERKMOD_CFG="$CFG_DIR/sourcemod/perkmod2.cfg"
 if [[ -f "$PERKMOD_CFG" ]]; then
+  echo ">>> Perkmod: l4d_perkmod_forcerandomperks=1 en $PERKMOD_CFG"
   sed -i 's/l4d_perkmod_forcerandomperks "0"/l4d_perkmod_forcerandomperks "1"/' "$PERKMOD_CFG"
+else
+  echo ">>> Perkmod: no hay $PERKMOD_CFG (se crea al primer load del plugin)"
 fi
 
 DROP="/home/steam/addons-drop"
@@ -223,6 +228,14 @@ if [[ -d "$DROP/addons" ]]; then
   echo ">>> Copiando addons-drop (plugins y extras)"
   mkdir -p "$GAME_DIR/left4dead2/addons"
   cp -a "$DROP/addons"/. "$GAME_DIR/left4dead2/addons/"
+fi
+
+# nextmap.smx es de SourceMod (CS/TF2); en L4D2 no funciona y spamea errores.
+SM_PLUGINS="$GAME_DIR/left4dead2/addons/sourcemod/plugins"
+if [[ -f "$SM_PLUGINS/nextmap.smx" ]]; then
+  mkdir -p "$SM_PLUGINS/disabled"
+  mv -f "$SM_PLUGINS/nextmap.smx" "$SM_PLUGINS/disabled/"
+  echo ">>> SourceMod: nextmap.smx → plugins/disabled"
 fi
 
 GEOIP_DIR="$GAME_DIR/left4dead2/addons/sourcemod/configs/geoip"
