@@ -6,11 +6,12 @@ services:
     stdin_open: true
     tty: true
     ports:
-      # El cliente L4D2 en Windows se queda con UDP 27015. En la misma PC
-      # publica 27016 y conecta a ese puerto. Dentro del contenedor srcds sigue en 27015.
-      - "${SRCDS_HOST_PORT:-27016}:27015/udp"
-      - "${SRCDS_HOST_PORT:-27016}:27015/tcp"
+      # Host (Windows) : contenedor (srcds). El cliente L4D2 ya usa 27015;
+      # deja ambos en 27016 para que Steam anuncie el mismo puerto.
+      - "${DOCKER_EXTERNO:-27016}:${DOCKER_INTERNO:-27016}/udp"
+      - "${DOCKER_EXTERNO:-27016}:${DOCKER_INTERNO:-27016}/tcp"
     environment:
+      DOCKER_INTERNO: ${DOCKER_INTERNO:-27016}
       SRCDS_HOSTNAME: ${SRCDS_HOSTNAME:-Los 8 de Mercy}
       SRCDS_MAXPLAYERS: ${SRCDS_MAXPLAYERS:-8}
       SRCDS_STARTMAP: ${SRCDS_STARTMAP:-c8m1_apartment}

@@ -6,7 +6,7 @@ STEAMCMD="${STEAMCMD:-/home/steam/steamcmd/steamcmd.sh}"
 APPID=222860
 MAXPLAYERS="${SRCDS_MAXPLAYERS:-8}"
 STARTMAP="${SRCDS_STARTMAP:-c8m1_apartment}"
-PORT="${SRCDS_PORT:-27015}"
+PORT=${DOCKER_INTERNO:-27016}
 
 mkdir -p "$GAME_DIR" "$GAME_DIR/steamapps" "$HOME/.steam"
 
@@ -241,13 +241,13 @@ fi
 cd "$GAME_DIR"
 # -ip 0.0.0.0 hace fallar SteamGameServer_Init en Docker (LAN only).
 export LD_LIBRARY_PATH="/usr/lib/i386-linux-gnu:${HOME}/.steam/sdk32:${LD_LIBRARY_PATH:-}"
-echo ">>> Arrancando srcds  -maxplayers ${MAXPLAYERS}  +map ${STARTMAP}"
+echo ">>> Arrancando srcds  -port ${PORT}  -maxplayers ${MAXPLAYERS}  +map ${STARTMAP}"
 exec ./srcds_run \
   -game left4dead2 \
   -console \
   -usercon \
   -secure \
-  -port "$PORT" \
+  -port $PORT \
   -maxplayers "$MAXPLAYERS" \
   +map "$STARTMAP" \
   +sv_lan 0 \

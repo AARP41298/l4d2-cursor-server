@@ -106,8 +106,8 @@ SRCDS_HOSTNAME=${quote(s.hostname)}
 SRCDS_MAXPLAYERS=${s.maxPlayers}
 SRCDS_STARTMAP=${s.startMap}
 SRCDS_GAMEMODE=${s.gamemode}
-SRCDS_PORT=27015
-SRCDS_HOST_PORT=${s.port}
+DOCKER_EXTERNO=${s.port}
+DOCKER_INTERNO=${s.port}
 SRCDS_REGION=${s.region}
 SRCDS_RCONPW=${quote(s.rconPassword || "cambia-esto")}
 SRCDS_PW=${quote(s.svPassword)}
@@ -204,9 +204,10 @@ export function generateComposeSnippet(s: ServerSettings): string {
     stdin_open: true
     tty: true
     ports:
-      - "${s.port}:27015/udp"
-      - "${s.port}:27015/tcp"
+      - "\${DOCKER_EXTERNO:-27016}:\${DOCKER_INTERNO:-27016}/udp"
+      - "\${DOCKER_EXTERNO:-27016}:\${DOCKER_INTERNO:-27016}/tcp"
     environment:
+      DOCKER_INTERNO: \${DOCKER_INTERNO:-27016}
       SRCDS_HOSTNAME: ${quote(s.hostname)}
       SRCDS_MAXPLAYERS: "${s.maxPlayers}"
       SRCDS_STARTMAP: ${s.startMap}

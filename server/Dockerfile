@@ -35,6 +35,6 @@ RUN mkdir -p /home/steam/steamcmd /home/steam/l4d2 \
 COPY --chmod=755 entrypoint.sh install-addons.sh install-workshop.sh expand-workshop.py /home/steam/
 COPY cfg /home/steam/defaults/cfg
 
-EXPOSE 27015/udp 27015/tcp
+EXPOSE 27016/udp 27016/tcp
 
 ENTRYPOINT ["/home/steam/entrypoint.sh"]
