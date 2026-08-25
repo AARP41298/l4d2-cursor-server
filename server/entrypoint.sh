@@ -214,9 +214,20 @@ EOF
 
 DROP="/home/steam/addons-drop"
 if [[ -d "$DROP/addons" ]]; then
-  echo ">>> Copiando addons-drop (ABM y extras)"
+  echo ">>> Copiando addons-drop (plugins y extras)"
   mkdir -p "$GAME_DIR/left4dead2/addons"
   cp -a "$DROP/addons"/. "$GAME_DIR/left4dead2/addons/"
+fi
+
+GEOIP_DIR="$GAME_DIR/left4dead2/addons/sourcemod/configs/geoip"
+GEOIP_DB="$GEOIP_DIR/GeoLite2-City.mmdb"
+if [[ ! -f "$GEOIP_DB" ]]; then
+  echo ">>> GeoIP: bajando GeoLite2-City.mmdb (Country Nick)"
+  mkdir -p "$GEOIP_DIR"
+  curl -fsSL --retry 3 -L \
+    "https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-City.mmdb" \
+    -o "$GEOIP_DB" \
+    || echo ">>> GeoIP: no se pudo bajar; Country Nick puede fallar"
 fi
 
 /home/steam/install-workshop.sh "$GAME_DIR" || echo ">>> Workshop: se arranca sin actualizar mapas"

@@ -36,6 +36,9 @@ yarn-error.log*
 .env.*.local
 !.env.example
 
+# GeoLite2 (~65 MB); el entrypoint la baja si falta
+server/addons-drop/addons/sourcemod/configs/geoip/*.mmdb
+
 # agent scratch
 /agent-tools/
 

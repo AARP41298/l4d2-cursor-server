@@ -1,15 +1,28 @@
-ABM no se puede bajar por script (AlliedModders bloquea bots).
+Plugins del gist (https://gist.github.com/AARP41298/f9ec90b2ecf594be24a90d98a5d8c4f0#plugin-example).
 
-1. Entra a https://forums.alliedmods.net/showthread.php?t=291562
-2. Baja abm.smx (el compilado de los adjuntos, no pulses "Get Plugin")
-3. Baja abm.txt (gamedata)
-4. Deja los archivos en esta carpeta respetando la estructura de left4dead2:
+El entrypoint copia esta carpeta encima del dedicated en cada arranque.
 
-   addons/sourcemod/plugins/abm.smx
-   addons/sourcemod/gamedata/abm.txt
+## Ya incluidos
 
-El entrypoint copia todo lo que haya aquí encima del dedicated en cada arranque.
+- `plugins/perkmod2.smx` — [Perkmod](https://forums.alliedmods.net/showthread.php?p=889437) compilado (perkmod2.sp).
+- `plugins/countrynick.smx` — [Country Nick](https://forums.alliedmods.net/showthread.php?p=738756) 1.2.3_fix.
+- `plugins/l4d_infectedhp.smx` — [Infected Health Gauge](https://forums.alliedmods.net/showthread.php?t=125747).
+- `translations/countrynick.phrases.txt`
+- GeoIP: `configs/geoip/GeoLite2-City.mmdb` (o el entrypoint la baja de [P3TERX/GeoLite.mmdb](https://github.com/P3TERX/GeoLite.mmdb)).
 
-Opcional y recomendado con 8+:
-- Left 4 DHooks (Silvers) — https://forums.alliedmods.net/showthread.php?t=321696
-- Extra Player Items (Jackz) — loot extra para el 5º en adelante
+## Perkmod: traducción (obligatoria para los menús)
+
+AlliedModders bloquea el adjunto. A mano:
+
+1. Post: https://forums.alliedmods.net/showpost.php?p=2329726
+2. Baja `plugin.perkmod - all langs 1 file.txt`
+3. Renómbralo a `plugin.perkmod.txt`
+4. Déjalo en `addons/sourcemod/translations/plugin.perkmod.txt`
+
+## ABM (5º jugador)
+
+1. https://forums.alliedmods.net/showthread.php?t=291562
+2. `addons/sourcemod/plugins/abm.smx`
+3. `addons/sourcemod/gamedata/abm.txt`
+
+Opcional 8+: Left 4 DHooks y Extra Player Items.

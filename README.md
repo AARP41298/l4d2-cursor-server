@@ -164,6 +164,18 @@ Versus por encima de 4v4 pide SuperVersus además de (o en lugar de) ABM.
 
 Opcional con 8+: [Left 4 DHooks](https://forums.alliedmods.net/showthread.php?t=321696) y Extra Player Items (kits/ammo para el 5º). No hacen falta para que entren.
 
+## Plugins del gist
+
+En `server/addons-drop` van [Perkmod](https://forums.alliedmods.net/showthread.php?p=889437), [Country Nick](https://forums.alliedmods.net/showthread.php?p=738756) y [Infected Health Gauge](https://forums.alliedmods.net/showthread.php?t=125747), más GeoLite2-City para las banderas. Detalle en `server/addons-drop/README.md`.
+
+Perkmod necesita a mano `plugin.perkmod.txt` (en el [post 647](https://forums.alliedmods.net/showpost.php?p=2329726) se llama `plugin.perkmod - all langs 1 file.txt`) en:
+
+```text
+server/addons-drop/addons/sourcemod/translations/plugin.perkmod.txt
+```
+
+Tras copiar, reinicia el contenedor. En consola: `sm plugins list`.
+
 ## Admin SourceMod
 
 Edita `addons/sourcemod/configs/admins_simple.ini` dentro del volumen, o mételo vía `addons-drop`:
