@@ -7484,7 +7484,7 @@ Pyro_Pickup(iCid, String:stWpn[])
 					|| g_iGren[iCid]==2)
 				{
 					g_iGren[iCid]=2;
-					PrintHintText(iCid,"Pyrotechnician: %t %i %s(s)", "GrenadierCarryHint", g_iGren[iCid], stWpn2);
+					PrintHintText(iCid,"%t: %t %i %s(s)", "PerkName_Pyrotechnician", "GrenadierCarryHint", g_iGren[iCid], stWpn2);
 				}
 				//otherwise, only give them one and tell them to
 				//throw the grenade before picking up another one;
@@ -7544,7 +7544,7 @@ Pyro_OnWeaponFire(iCid, String:stWpn[])
 				stWpn2="vomit jar";
 			}
 
-			PrintHintText(iCid,"Pyrotechnician: %t %i %s(s) %t", "GrenadierCounter_A", g_iGren[iCid], stWpn2, "GrenadierCounter_B");
+			PrintHintText(iCid,"%t: %t %i %s(s) %t", "PerkName_Pyrotechnician", "GrenadierCounter_A", g_iGren[iCid], stWpn2, "GrenadierCounter_B");
 			CreateTimer(2.5,Grenadier_DelayedGive,iCid);
 		}
 	}
@@ -8120,7 +8120,7 @@ Unbreakable_OnHeal (iCid)
 		if (GetEntProp(iCid,Prop_Data,"m_iHealth") > 200)
 			CreateTimer(0.5,Unbreakable_Delayed_SetHigh,iCid);
 
-		PrintHintText(iCid,"Unbreakable: %t!", "UnbreakableHint");
+		PrintHintText(iCid,"%t: %t!", "PerkName_Unbreakable", "UnbreakableHint");
 	}
 }
 
@@ -8161,7 +8161,7 @@ Event_Confirm_Unbreakable (iCid)
 			CreateTimer(0.5,Unbreakable_Delayed_Max,iCid);
 		else if (iHP<=100)
 			CreateTimer(0.5,Unbreakable_Delayed_Normal,iCid);
-		PrintHintText(iCid,"Unbreakable: %t!", "UnbreakableHint");
+		PrintHintText(iCid,"%t: %t!", "PerkName_Unbreakable", "UnbreakableHint");
 
 		//run a check to see if for whatever reason
 		//the player's health is above 200
@@ -8196,7 +8196,7 @@ Unbreakable_OnRescue (iCid)
 			return;
 
 		CreateTimer(0.5,Unbreakable_Delayed_Rescue,iCid);
-		PrintHintText(iCid,"Unbreakable: %t!", "UnbreakableHint");
+		PrintHintText(iCid,"%t: %t!", "PerkName_Unbreakable", "UnbreakableHint");
 
 		//run a check to see if for whatever reason
 		//the player's health is above 200
@@ -8223,7 +8223,7 @@ Unbreakable_OnRevive (iSub, iLedge)
 			|| g_iUnbreak_enable_vs==1	&&	g_iL4D_GameMode==2))
 		{
 			SetEntDataFloat(iSub,g_iHPBuffO, GetEntDataFloat(iSub,g_iHPBuffO)+(g_iUnbreak_hp/2) ,true);
-			PrintHintText(iSub,"Unbreakable: %t!", "UnbreakableHint");
+			PrintHintText(iSub,"%t: %t!", "PerkName_Unbreakable", "UnbreakableHint");
 		}
 	}
 }
@@ -8545,7 +8545,7 @@ public Action:Spirit_ChangeHP (Handle:timer, any:hPack)
 		if (iRevCount_ret+1 >= 2)
 			PrintHintText(iCid, "%t", "SpiritBWWarning");
 		else
-			PrintHintText(iCid,"Spirit: %t!", "SpritSuccessMessage");
+			PrintHintText(iCid,"%t: %t!", "PerkName_Spirit", "SpritSuccessMessage");
 	}
 
 	//always destroy the timer, since it's possible spirit may not have executed
@@ -8650,9 +8650,9 @@ HelpHand_OnReviveSuccess (iCid, iSub, iLedge)
 
 				new String:st_name[24];
 				GetClientName(iSub,st_name,24);
-				PrintHintText(iCid,"Helping Hand: %t %s!", "HelpingHandDonorHint", st_name);
+				PrintHintText(iCid,"%t: %t %s!", "PerkName_HelpingHand", "HelpingHandDonorHint", st_name);
 				GetClientName(iCid,st_name,24);
-				PrintHintText(iSub,"Helping Hand: %s %t",st_name, "HelpingHandReceiverHint");
+				PrintHintText(iSub,"%t: %s %t", "PerkName_HelpingHand", st_name, "HelpingHandReceiverHint");
 			}
 		}
 	}
@@ -9290,7 +9290,7 @@ BarfBagged_OnIt (iAtt)
 		FakeClientCommand(iAtt,"z_spawn mob auto");
 		SetCommandFlags("z_spawn", iflags);
 
-		if (g_iSlimed==4) PrintHintText(iAtt,"Barf Bagged! %t", "BarfBaggedMobHint");
+		if (g_iSlimed==4) PrintHintText(iAtt,"%t! %t", "PerkName_BarfBagged", "BarfBaggedMobHint");
 	}
 	return 0;
 }
@@ -9796,7 +9796,7 @@ BodySlam_DamageAdd (iAtt, iVic, iTA, iType, String:stWpn[], iDmgOrig)
 				//PrintToChatAll("\x03iHP>8 condition");
 
 				SetEntProp(iVic,Prop_Data,"m_iHealth", iHP-(iMinBound-iDmgOrig) );
-				PrintHintText(iAtt,"Body Slam: %i %t!", iMinBound-iDmgOrig, "BonusDamageText");
+				PrintHintText(iAtt,"%t: %i %t!", "PerkName_BodySlam", iMinBound-iDmgOrig, "BonusDamageText");
 
 				//----DEBUG----
 				//PrintToChatAll("\x03-%i bonus damage", (iMinBound-iDmgOrig) );
@@ -9845,7 +9845,7 @@ BodySlam_DamageAdd (iAtt, iVic, iTA, iType, String:stWpn[], iDmgOrig)
 						new iHPBuff=RoundToFloor(flHPBuff);
 						if (iHPBuff<iDmgAdd) iDmgAdd=iHPBuff;
 						SetEntDataFloat(iVic,g_iHPBuffO, flHPBuff-iDmgAdd ,true);
-						PrintHintText(iAtt,"Body Slam: %i bonus damage!", iDmgCount+iDmgAdd);
+						PrintHintText(iAtt,"%t: %i %t!", "PerkName_BodySlam", iDmgCount+iDmgAdd, "BonusDamageText");
 
 						//----DEBUG----
 						//PrintToChatAll("\x03-damage to health: \x01%i\x03, current health: \x01%i",iDmgCount,GetEntProp(iVic,Prop_Data,"m_iHealth"));
@@ -9864,7 +9864,7 @@ BodySlam_DamageAdd (iAtt, iVic, iTA, iType, String:stWpn[], iDmgOrig)
 						//PrintToChatAll("\x03-iDmgAdd<iHP condition");
 
 						SetEntProp(iVic,Prop_Data,"m_iHealth", iHP-iDmgAdd );
-						PrintHintText(iAtt,"Body Slam: %i bonus damage!", iDmgAdd);
+						PrintHintText(iAtt,"%t: %i %t!", "PerkName_BodySlam", iDmgAdd, "BonusDamageText");
 						return 1;
 					}
 				}
@@ -9886,7 +9886,7 @@ BodySlam_DamageAdd (iAtt, iVic, iTA, iType, String:stWpn[], iDmgOrig)
 					//of remaining health if necessary
 					if (iDmgAdd>=iHP) iDmgAdd=iHP-1;
 					SetEntProp(iVic,Prop_Data,"m_iHealth", iHP-iDmgAdd );
-					PrintHintText(iAtt,"Body Slam: %i bonus damage!", iDmgAdd);
+					PrintHintText(iAtt,"%t: %i %t!", "PerkName_BodySlam", iDmgAdd, "BonusDamageText");
 
 					//----DEBUG----
 					//PrintToChatAll("\x03-iHP<8, %i bonus damage", iDmgAdd );
@@ -10705,7 +10705,7 @@ Tank_ApplyPerk (any:iCid)
 				Adrenal_Rebuild();
 
 				if (IsFakeClient(iCid)==false)
-					PrintHintText(iCid,"Adrenal Glands: %t", "AdrenalGlandsHint");
+					PrintHintText(iCid,"%t: %t", "PerkName_AdrenalGlands", "AdrenalGlandsHint");
 				return ;
 			}
 		//check for juggernaut perk
@@ -10728,7 +10728,7 @@ Tank_ApplyPerk (any:iCid)
 				g_iTank=2;
 
 				if (IsFakeClient(iCid)==false)
-					PrintHintText(iCid,"Juggernaut: %t", "JuggernautHint");
+					PrintHintText(iCid,"%t: %t", "PerkName_Juggernaut", "JuggernautHint");
 
 				return ;
 			}
@@ -10743,7 +10743,7 @@ Tank_ApplyPerk (any:iCid)
 
 				SetEntDataFloat(iCid,g_iLaggedMovementO, 1.0*g_flMetabolic_speedmult ,true);
 				if (IsFakeClient(iCid)==false)
-					PrintHintText(iCid,"Metabolic Boost: %t", "MetabolicHint");
+					PrintHintText(iCid,"%t: %t", "PerkName_Metabolic", "MetabolicHint");
 				return ;
 			}
 
@@ -10767,7 +10767,7 @@ Tank_ApplyPerk (any:iCid)
 				}
 				SetCommandFlags("z_spawn", iflags);
 				if (IsFakeClient(iCid)==false)
-					PrintHintText(iCid,"Storm Caller: %t", "StormCallerHint");
+					PrintHintText(iCid,"%t: %t", "PerkName_StormCaller", "StormCallerHint");
 
 				return ;
 			}
@@ -10814,7 +10814,7 @@ Tank_ApplyPerk (any:iCid)
 		CreateTimer(3.0,DoubleTrouble_FrustrationTimer,iCid,TIMER_REPEAT);
 
 		if (IsFakeClient(iCid)==false)
-			PrintHintText(iCid,"Double Trouble: %t", "DoubleTroubleHint1");
+			PrintHintText(iCid,"%t: %t", "PerkName_DoubleTrouble", "DoubleTroubleHint1");
 		return ;
 	}
 
@@ -11392,12 +11392,64 @@ public Action:MenuOpen_OnSay(iCid, args)
 	return Plugin_Continue;
 }
 
+stock Perkmod_SetMenuLang(iCid)
+{
+	if (iCid > 0)
+		SetGlobalTransTarget(iCid);
+}
+
+stock Perkmod_SetMenuTitle(Handle:menu, const String:phrase[])
+{
+	decl String:stTitle[128];
+	Format(stTitle, 128, "%t", phrase);
+	SetPanelTitle(menu, stTitle);
+}
+
+stock Perkmod_SetMenuTitleClass(Handle:menu, const String:classPhrase[])
+{
+	decl String:stClass[32];
+	decl String:stTitle[128];
+	Format(stClass, 32, "%t", classPhrase);
+	Format(stTitle, 128, "%t", "MenuTitle_Infected", stClass);
+	SetPanelTitle(menu, stTitle);
+}
+
+stock Perkmod_FormatPerkName(String:buffer[], maxlen, const String:namePhrase[])
+{
+	Format(buffer, maxlen, "%t", namePhrase);
+}
+
+stock Perkmod_FormatPerkItem(String:buffer[], maxlen, const String:namePhrase[], bool:bCurrent)
+{
+	if (bCurrent)
+		Format(buffer, maxlen, "%t %t", namePhrase, "PerkCurrentMarker");
+	else
+		Format(buffer, maxlen, "%t", namePhrase);
+}
+
+stock Perkmod_FormatInfectedSlot(String:buffer[], maxlen, const String:classPhrase[], const String:namePhrase[])
+{
+	decl String:stClass[32];
+	decl String:stName[64];
+	Format(stClass, 32, "%t", classPhrase);
+	Format(stName, 64, "%t", namePhrase);
+	Format(buffer, maxlen, "%t", "MenuSlot_Infected", stClass, stName);
+}
+
+stock Perkmod_FormatInfectedUnset(String:buffer[], maxlen, const String:classPhrase[])
+{
+	decl String:stClass[32];
+	Format(stClass, 32, "%t", classPhrase);
+	Format(buffer, maxlen, "%s: %t", stClass, "NotSet");
+}
+
 //build initial menu
 public Handle:Menu_Initial (iCid)
 {
+	Perkmod_SetMenuLang(iCid);
 	new Handle:menu = CreatePanel();
 	decl String:stPanel[128];
-	SetPanelTitle(menu, "Xtreme-Infection Perkmod: Menu Principal");
+	Perkmod_SetMenuTitle(menu, "MenuTitle_Main");
 
 	//"This server is using Perkmod"
 	Format(stPanel, 128, "%t", "InitialMenuPanel1");
@@ -11521,37 +11573,40 @@ public Menu_ChooseInit_Inf (Handle:topmenu, MenuAction:action, param1, param2)
 //build top menu
 public Handle:Menu_Top (iCid)
 {
+	Perkmod_SetMenuLang(iCid);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "Xtreme-Infection Perkmod - Menu Principal");
-	DrawPanelText(menu,"Selecciona las alternativas en el submenu");
-	decl String:st_perk[32];
-	decl String:st_display[MAXPLAYERS+1];
+	Perkmod_SetMenuTitle(menu, "MenuTitle_Main");
+	decl String:st_choose[64];
+	Format(st_choose, 64, "%t", "ChooseSubMenuPanel");
+	DrawPanelText(menu, st_choose);
+	decl String:st_perk[64];
+	decl String:st_display[64];
 
 	//set name for sur1 perk
 	if (g_iSur1[iCid]==1
 		&& (g_iStopping_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iStopping_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iStopping_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Stopping Power";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_StoppingPower");
 	else if (g_iSur1[iCid]==2
 		&& (g_iDT_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iDT_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iDT_enable_vs==1	&&	g_iL4D_GameMode==2))
-		st_perk="Double Tap";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_DoubleTap");
 	else if (g_iSur1[iCid]==3
 		&& (g_iSoH_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iSoH_enable_sur==1		&&	g_iL4D_GameMode==1
 		|| g_iSoH_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Sleight of Hand";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_SleightOfHand");
 	else if (g_iSur1[iCid]==4
 		&& (g_iPyro_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iPyro_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iPyro_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Pyrotechnician";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Pyrotechnician");
 	else
-		st_perk="No establecido";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Supervivientes - Primero (%s)",st_perk);
+	Format(st_display,64,"%t", "MenuSlot_Sur1", st_perk);
 	if (g_iSur1_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
@@ -11563,27 +11618,27 @@ public Handle:Menu_Top (iCid)
 		&& (g_iUnbreak_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iUnbreak_enable_sur==1		&&	g_iL4D_GameMode==1
 		|| g_iUnbreak_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Unbreakable";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Unbreakable");
 	else if (g_iSur2[iCid]==2
 		&& (g_iSpirit_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iSpirit_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iSpirit_enable_vs==1	&&	g_iL4D_GameMode==2))
-		st_perk="Spirit";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Spirit");
 	else if (g_iSur2[iCid]==3
 		&& (g_iHelpHand_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iHelpHand_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iHelpHand_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Helping Hand";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_HelpingHand");
 	else if (g_iSur2[iCid]==4
 		&& g_iL4D_12 == 2
 		&& (g_iMA_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iMA_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iMA_enable_vs==1	&&	g_iL4D_GameMode==2))
-		st_perk="Martial Artist";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_MartialArtist");
 	else
-		st_perk="No establecido";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Supervivientes - Segundo (%s)", st_perk);
+	Format(st_display,64,"%t", "MenuSlot_Sur2", st_perk);
 	if (g_iSur2_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
@@ -11594,31 +11649,31 @@ public Handle:Menu_Top (iCid)
 		&& (g_iPack_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iPack_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iPack_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Pack Rat";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_PackRat");
 	else if (g_iSur3[iCid]==2
 		&& (g_iChem_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iChem_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iChem_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Chem Reliant";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_ChemReliant");
 	else if (g_iSur3[iCid]==3
 		&& (g_iHard_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iHard_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iHard_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Hard to Kill";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_HardToKill");
 	else if (g_iSur3[iCid]==4
 		&& (g_iExtreme_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iExtreme_enable_sur==1		&&	g_iL4D_GameMode==1
 		|| g_iExtreme_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Extreme Conditioning";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_ExtremeConditioning");
 	else if (g_iSur3[iCid]==5
 		&& (g_iLittle_enable==1			&&	g_iL4D_GameMode==0
 		|| g_iLittle_enable_sur==1		&&	g_iL4D_GameMode==1
 		|| g_iLittle_enable_vs==1		&&	g_iL4D_GameMode==2))
-		st_perk="Little Leaguer";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_LittleLeaguer");
 	else
-		st_perk="No establecido";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Supervivientes - Tercero (%s)", st_perk);
+	Format(st_display,64,"%t", "MenuSlot_Sur3", st_perk);
 	if (g_iSur3_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
@@ -11672,31 +11727,36 @@ public Menu_ChooseSubMenu (Handle:topmenu, MenuAction:action, param1, param2)
 //build top menu,infected
 public Handle:Menu_Top_Inf (iCid)
 {
+	Perkmod_SetMenuLang(iCid);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Main Menu");
-	DrawPanelText(menu,"Select a submenu to choose a perk");
-	decl String:st_perk[32];
-	decl String:st_display[MAXPLAYERS+1];
+	Perkmod_SetMenuTitle(menu, "MenuTitle_Main");
+	decl String:st_choose[64];
+	Format(st_choose, 64, "%t", "ChooseSubMenuPanel");
+	DrawPanelText(menu, st_choose);
+	decl String:st_perk[64];
+	decl String:st_display[64];
+	decl String:st_class[32];
 	decl iPerk;
 
 	//set name for inf1 perk
 	iPerk = g_iInf1[iCid];
 	if (iPerk==1
 		&& g_iBarf_enable==1)
-		st_perk="Barf Bagged";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_BarfBagged");
 	else if (iPerk==2
 		&& g_iBlind_enable==1)
-		st_perk="Blind Luck";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_BlindLuck");
 	else if (iPerk==3
 		&& g_iDead_enable==1)
-		st_perk="Dead Wreckening";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_DeadWreckening");
 	else if (iPerk==4
 		&& g_iMotion_enable==1)
-		st_perk="Motion Sickness";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_MotionSickness");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Boomer (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Boomer");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf1_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
@@ -11706,20 +11766,21 @@ public Handle:Menu_Top_Inf (iCid)
 	iPerk = g_iInf3[iCid];
 	if (iPerk==1
 		&& g_iTongue_enable==1)
-		st_perk="Tongue Twister";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_TongueTwister");
 	else if (iPerk==2
 		&& g_iSqueezer_enable==1)
-		st_perk="Squeezer";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Squeezer");
 	else if (iPerk==3
 		&& g_iDrag_enable==1)
-		st_perk="Drag and Drop";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_DragAndDrop");
 	else if (iPerk==4
 		&& g_iSmokeIt_enable==1)
-		st_perk="Smoke IT!";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_SmokeIt");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Smoker (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Smoker");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf3_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
@@ -11729,20 +11790,21 @@ public Handle:Menu_Top_Inf (iCid)
 	iPerk = g_iInf4[iCid];
 	if (iPerk==1
 		&& g_iBody_enable==1)
-		st_perk="Body Slam";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_BodySlam");
 	else if (iPerk==2
 		&& g_iEfficient_enable==1)
-		st_perk="Efficient Killer";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_EfficientKiller");
 	else if (iPerk==3
 		&& g_iGrass_enable==1)
-		st_perk="Grasshopper";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Grasshopper");
 	else if (iPerk==4
 		&& g_iSpeedDemon_enable==1)
-		st_perk="Speed Demon";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_SpeedDemon");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Hunter (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Hunter");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf4_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
@@ -11752,20 +11814,21 @@ public Handle:Menu_Top_Inf (iCid)
 	iPerk = g_iInf5[iCid];
 	if (iPerk==1
 		&& g_iWind_enable==1)
-		st_perk="Ride Like the Wind";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_RideLikeTheWind");
 	else if (iPerk==2
 		&& g_iCavalier_enable==1)
-		st_perk="Cavalier";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Cavalier");
 	else if (iPerk == 3
 		&& g_iFrogger_enable == 1)
-		st_perk = "Frogger";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Frogger");
 	else if (iPerk == 4
 		&& g_iGhost_enable == 1)
-		st_perk = "Ghost Rider";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_GhostRider");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Jockey (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Jockey");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf5_enable==1
 		&& g_iL4D_12 == 2)
 		DrawPanelItem(menu,st_display);
@@ -11776,14 +11839,15 @@ public Handle:Menu_Top_Inf (iCid)
 	iPerk = g_iInf6[iCid];
 	if (iPerk==1
 		&& g_iTwinSF_enable==1)
-		st_perk="Twin Spitfire";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_TwinSpitfire");
 	else if (iPerk==2
 		&& g_iMegaAd_enable==1)
-		st_perk="Mega Adhesive";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_MegaAdhesive");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Spitter (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Spitter");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf6_enable==1
 		&& g_iL4D_12 == 2)
 		DrawPanelItem(menu,st_display);
@@ -11794,14 +11858,15 @@ public Handle:Menu_Top_Inf (iCid)
 	iPerk = g_iInf7[iCid];
 	if (iPerk==1
 		&& g_iScatter_enable==1)
-		st_perk="Scattering Ram";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_ScatteringRam");
 	else if (iPerk == 2
 		&& g_iBullet_enable == 1)
-		st_perk = "Speeding Bullet";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_SpeedingBullet");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Charger (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Charger");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf7_enable==1
 		&& g_iL4D_12 == 2)
 		DrawPanelItem(menu,st_display);
@@ -11811,31 +11876,35 @@ public Handle:Menu_Top_Inf (iCid)
 	//set name for inf2 perk
 	if (g_iInf2[iCid]==1
 		&& g_iAdrenal_enable==1)
-		st_perk="Adrenal Glands";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_AdrenalGlands");
 	else if (g_iInf2[iCid]==2
 		&& g_iJuggernaut_enable==1)
-		st_perk="Juggernaut";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Juggernaut");
 	else if (g_iInf2[iCid]==3
 		&& g_iMetabolic_enable==1)
-		st_perk="Metabolic";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_Metabolic");
 	else if (g_iInf2[iCid]==4
 		&& g_iStorm_enable==1)
-		st_perk="Storm Caller";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_StormCaller");
 	else if (g_iInf2[iCid]==5
 		&& g_iDouble_enable==1)
-		st_perk="Double the Trouble";
+		Perkmod_FormatPerkName(st_perk, 64, "PerkName_DoubleTrouble");
 	else
-		st_perk="Not set";
+		Perkmod_FormatPerkName(st_perk, 64, "NotSet");
 
-	Format(st_display,64,"Tank (%s)", st_perk);
+	Format(st_class, 32, "%t", "InfClass_Tank");
+	Format(st_display,64,"%s (%s)", st_class, st_perk);
 	if (g_iInf2_enable==1)
 		DrawPanelItem(menu,st_display);
 	else
 		DrawPanelItem(menu,st_display, ITEMDRAW_NOTEXT);
 
-	DrawPanelText(menu,"In order for your perks to work");
-	DrawPanelText(menu,"you MUST hit 'done'");
-	DrawPanelItem(menu,"DONE");
+	Format(st_display, 64, "%t", "DoneNagPanel1");
+	DrawPanelText(menu, st_display);
+	Format(st_display, 64, "%t", "DoneNagPanel2");
+	DrawPanelText(menu, st_display);
+	Format(st_display, 64, "%t", "DoneNagPanel3");
+	DrawPanelItem(menu, st_display);
 	return menu;
 }
 
@@ -11881,6 +11950,7 @@ public Menu_ChooseSubMenu_Inf (Handle:topmenu, MenuAction:action, param1, param2
 //menu for confirming perk choices
 public Handle:Menu_Confirm (iCid)
 {
+	Perkmod_SetMenuLang(iCid);
 	new Handle:menu = CreatePanel();
 	decl String:panel[128];
 	Format(panel, 128, "%t", "ConfirmNagPanel1");	
@@ -11977,9 +12047,11 @@ public Menu_DoNothing (Handle:topmenu, MenuAction:action, param1, param2)
 //shows perk choices
 public Handle:Menu_ShowChoices (iCid)
 {
+	Perkmod_SetMenuLang(iCid);
 	new Handle:menu=CreatePanel();
-	SetPanelTitle(menu,"Xtreme-Infection Perkmod: Perks Activos");
+	Perkmod_SetMenuTitle(menu, "MenuTitle_ActivePerks");
 	decl String:st_perk[128];
+	decl String:st_label[64];
 	decl iPerk;
 	//"Your perks for this round:"
 	Format(st_perk, 128, "%t:", "MapPerksPanel");
@@ -11990,28 +12062,29 @@ public Handle:Menu_ShowChoices (iCid)
 		&& (g_iStopping_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iStopping_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iStopping_enable_vs==1		&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Stopping Power (+%i%% %t)", RoundToNearest(g_flStopping_dmgmult*100), "BonusDamageText" );
+		Format(st_perk,128,"%t (+%i%% %t)", "PerkName_StoppingPower", RoundToNearest(g_flStopping_dmgmult*100), "BonusDamageText" );
 	else if (iPerk == 2
 		&& (g_iDT_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iDT_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iDT_enable_vs==1	&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Double Tap (%t, %t, %t)", "DoubleTapDescriptionPanel", "SleighOfHandDescriptionPanel", "DoubleTapRestrictionWarning" ) ;
+		Format(st_perk,128,"%t (%t, %t, %t)", "PerkName_DoubleTap", "DoubleTapDescriptionPanel", "SleighOfHandDescriptionPanel", "DoubleTapRestrictionWarning" ) ;
 	else if (iPerk == 3
 		&& (g_iSoH_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iSoH_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iSoH_enable_vs==1	&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Sleight of Hand (%t +%i%%)", "SleighOfHandDescriptionPanel", RoundToNearest(100 * ((1/g_flSoH_rate)-1) ) ) ;
+		Format(st_perk,128,"%t (%t +%i%%)", "PerkName_SleightOfHand", "SleighOfHandDescriptionPanel", RoundToNearest(100 * ((1/g_flSoH_rate)-1) ) ) ;
 	else if (iPerk == 4
 		&& (g_iPyro_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iPyro_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iPyro_enable_vs==1		&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Pyrotechnician (%t)", "PyroDescriptionPanel");
+		Format(st_perk,128,"%t (%t)", "PerkName_Pyrotechnician", "PyroDescriptionPanel");
 	else
 		Format(st_perk,128,"%t", "NotSet");
 
 	if (g_iSur1_enable==1)
 	{
-		DrawPanelItem(menu,"Superviviente: Primero");
+		Format(st_label, 64, "%t", "MenuSlotLabel_Sur1");
+		DrawPanelItem(menu, st_label);
 		DrawPanelText(menu,st_perk);
 	}
 
@@ -12021,7 +12094,7 @@ public Handle:Menu_ShowChoices (iCid)
 		&& (g_iUnbreak_enable==1	&&	g_iL4D_GameMode==0
 		|| g_iUnbreak_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iUnbreak_enable_vs==1	&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Unbreakable (+%i %t)", g_iUnbreak_hp, "UnbreakableHint");
+		Format(st_perk,128,"%t (+%i %t)", "PerkName_Unbreakable", g_iUnbreak_hp, "UnbreakableHint");
 	else if (iPerk == 2
 		&& (g_iSpirit_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iSpirit_enable_sur==1	&&	g_iL4D_GameMode==1
@@ -12034,7 +12107,7 @@ public Handle:Menu_ShowChoices (iCid)
 			iTime=g_iSpirit_cd_sur;
 		else
 			iTime=g_iSpirit_cd;
-		Format(st_perk,128,"Spirit (%t: %i min)", "SpiritDescriptionPanel", iTime/60 );
+		Format(st_perk,128,"%t (%t: %i min)", "PerkName_Spirit", "SpiritDescriptionPanel", iTime/60 );
 	}
 	else if (iPerk == 3
 		&& (g_iHelpHand_enable==1		&&	g_iL4D_GameMode==0
@@ -12047,9 +12120,9 @@ public Handle:Menu_ShowChoices (iCid)
 		else
 			iBuff=g_iHelpHand_buff;
 		if (g_iHelpHand_convar==1)
-			Format(st_perk,128,"Helping Hand (%t +%i)", "HelpingHandDescriptionPanel2", iBuff);
+			Format(st_perk,128,"%t (%t +%i)", "PerkName_HelpingHand", "HelpingHandDescriptionPanel2", iBuff);
 		else
-			Format(st_perk,128,"Helping Hand (%t +%i)", "HelpingHandDescriptionPanel", iBuff);
+			Format(st_perk,128,"%t (%t +%i)", "PerkName_HelpingHand", "HelpingHandDescriptionPanel", iBuff);
 	}
 	else if (iPerk == 4
 		&& (g_iMA_enable==1		&&	g_iL4D_GameMode==0
@@ -12057,16 +12130,17 @@ public Handle:Menu_ShowChoices (iCid)
 		|| g_iMA_enable_vs==1	&&	g_iL4D_GameMode==2))
 	{
 		if (g_iMA_maxpenalty < 6)
-			Format(st_perk,128,"Martial Artist (%t)", "MartialArtistDescriptionPanel");
+			Format(st_perk,128,"%t (%t)", "PerkName_MartialArtist", "MartialArtistDescriptionPanel");
 		else
-			Format(st_perk,128,"Martial Artist (%t)", "MartialArtistDescriptionPanel_noreduc");
+			Format(st_perk,128,"%t (%t)", "PerkName_MartialArtist", "MartialArtistDescriptionPanel_noreduc");
 	}
 	else
 		Format(st_perk,128,"%t", "NotSet");
 
 	if (g_iSur2_enable==1)
 	{
-		DrawPanelItem(menu,"Superviviente: Segundo");
+		Format(st_label, 64, "%t", "MenuSlotLabel_Sur2");
+		DrawPanelItem(menu, st_label);
 		DrawPanelText(menu,st_perk);
 	}
 
@@ -12076,33 +12150,34 @@ public Handle:Menu_ShowChoices (iCid)
 		&& (g_iPack_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iPack_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iPack_enable_vs==1		&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Pack Rat (%t +%i%%)", "PackRatDescriptionPanel", RoundToNearest(g_flPack_ammomult*100) );
+		Format(st_perk,128,"%t (%t +%i%%)", "PerkName_PackRat", "PackRatDescriptionPanel", RoundToNearest(g_flPack_ammomult*100) );
 	else if (iPerk == 2
 		&& (g_iChem_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iChem_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iChem_enable_vs==1		&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Chem Reliant (%t +%i)", "ChemReliantDescriptionPanel", g_iChem_buff);
+		Format(st_perk,128,"%t (%t +%i)", "PerkName_ChemReliant", "ChemReliantDescriptionPanel", g_iChem_buff);
 	else if (iPerk == 3
 		&& (g_iHard_enable==1			&&	g_iL4D_GameMode==0
 		|| g_iHard_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iHard_enable_vs==1		&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Hard to Kill (+%i%% %t)", RoundToNearest(g_flHard_hpmult*100), "HardToKillDescriptionPanel" );
+		Format(st_perk,128,"%t (+%i%% %t)", "PerkName_HardToKill", RoundToNearest(g_flHard_hpmult*100), "HardToKillDescriptionPanel" );
 	else if (iPerk == 4
 		&& (g_iExtreme_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iExtreme_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iExtreme_enable_vs==1	&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Extreme Conditioning (+%i%% %t)", RoundToNearest(g_flExtreme_rate*100-100), "MartialArtistDescriptionPanelCoop" );
+		Format(st_perk,128,"%t (+%i%% %t)", "PerkName_ExtremeConditioning", RoundToNearest(g_flExtreme_rate*100-100), "MartialArtistDescriptionPanelCoop" );
 	else if (iPerk == 5
 		&& (g_iLittle_enable==1		&&	g_iL4D_GameMode==0
 		|| g_iLittle_enable_sur==1	&&	g_iL4D_GameMode==1
 		|| g_iLittle_enable_vs==1	&&	g_iL4D_GameMode==2))
-		Format(st_perk,128,"Little Leaguer (%t)", "LittleLeaguerDescriptionPanel" );
+		Format(st_perk,128,"%t (%t)", "PerkName_LittleLeaguer", "LittleLeaguerDescriptionPanel" );
 	else
 		Format(st_perk,128,"%t", "NotSet");
 
-	if (g_iSur2_enable==1)
+	if (g_iSur3_enable==1)
 	{
-		DrawPanelItem(menu,"Superviviente: Tercero");
+		Format(st_label, 64, "%t", "MenuSlotLabel_Sur3");
+		DrawPanelItem(menu, st_label);
 		DrawPanelText(menu,st_perk);
 	}
 
@@ -12114,8 +12189,9 @@ public Handle:Menu_ShowChoices (iCid)
 //shows perk choices, infected
 public Handle:Menu_ShowChoices_Inf (iCid)
 {
+	Perkmod_SetMenuLang(iCid);
 	new Handle:menu=CreatePanel();
-	SetPanelTitle(menu,"tPoncho's Perkmod: Your perks for this round");
+	Perkmod_SetMenuTitle(menu, "MenuTitle_ActivePerks");
 	decl String:st_perk[128];
 	decl String:stDesc[128];
 	decl iPerk;
@@ -12125,30 +12201,30 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iBarf_enable == 1)
 	{
-		st_perk="Boomer: Barf Bagged";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Boomer", "PerkName_BarfBagged");
 		Format(stDesc,128,"%t", "BarfBaggedDescriptionPanel");
 	}
 	else if (iPerk == 2
 		&& g_iBlind_enable == 1)
 	{
-		st_perk="Boomer: Blind Luck";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Boomer", "PerkName_BlindLuck");
 		Format(stDesc,128,"%t", "AcidVomitDescriptionPanel");
 	}
 	else if (iPerk == 3
 		&& g_iDead_enable == 1)
 	{
-		st_perk="Boomer: Dead Wreckening";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Boomer", "PerkName_DeadWreckening");
 		Format(stDesc,128,"%t: +%i%%", "DeadWreckeningDescriptionPanel", RoundToNearest(100*g_flDead_dmgmult));
 	}
 	else if (iPerk == 4
 		&& g_iMotion_enable == 1)
 	{
-		st_perk="Boomer: Motion Sickness";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Boomer", "PerkName_MotionSickness");
 		Format(stDesc,128,"%t", "MotionSicknessDescriptionPanel");
 	}
 	else
 	{
-		Format(st_perk,128,"Boomer: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Boomer");
 		stDesc = "";
 	}
 
@@ -12163,30 +12239,30 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iTongue_enable == 1)
 	{
-		st_perk="Smoker: Tongue Twister";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Smoker", "PerkName_TongueTwister");
 		Format(stDesc,128,"%t", "TongueTwisterDescriptionPanel");
 	}
 	else if (iPerk == 2
 		&& g_iSqueezer_enable == 1)
 	{
-		st_perk="Smoker: Squeezer";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Smoker", "PerkName_Squeezer");
 		Format(stDesc,128,"+%i%% %t", RoundToNearest(g_flSqueezer_dmgmult*100), "BonusDamageText" );
 	}
 	else if (iPerk == 3
 		&& g_iDrag_enable == 1)
 	{
-		st_perk="Smoker: Drag and Drop";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Smoker", "PerkName_DragAndDrop");
 		Format(stDesc,128,"%t", "DragAndDropDescriptionPanel");
 	}
 	else if (iPerk == 4
 		&& g_iSmokeIt_enable == 1)
 	{
-		st_perk="Smoker: Smoke IT!";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Smoker", "PerkName_SmokeIt");
 		Format(stDesc,128,"%t", "SmokeItDescriptionPanel");
 	}
 	else
 	{
-		Format(st_perk,128,"Smoker: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Smoker");
 		stDesc = "";
 	}
 
@@ -12201,30 +12277,30 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iBody_enable == 1)
 	{
-		st_perk="Hunter: Body Slam";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Hunter", "PerkName_BodySlam");
 		Format(stDesc,128,"%i %t", g_iBody_minbound, "BodySlamDescriptionPanel");
 	}
 	else if (iPerk == 2
 		&& g_iEfficient_enable == 1)
 	{
-		st_perk="Hunter: Efficient Killer";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Hunter", "PerkName_EfficientKiller");
 		Format(stDesc,128,"+%i%% %t", RoundToNearest(g_flEfficient_dmgmult*100), "BonusDamageText" );
 	}
 	else if (iPerk == 3
 		&& g_iGrass_enable == 1)
 	{
-		st_perk="Hunter: Grasshopper";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Hunter", "PerkName_Grasshopper");
 		Format(stDesc,128,"%t: +%i%%", "GrasshopperDescriptionPanel", RoundToNearest( (g_flGrass_rate - 1) * 100 ) );
 	}
 	else if (iPerk == 4
 		&& g_iSpeedDemon_enable == 1)
 	{
-		st_perk="Hunter: Speed Demon";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Hunter", "PerkName_SpeedDemon");
 		Format(stDesc,128,"+%i%% %t +%i%% %t", RoundToNearest(g_flSpeedDemon_dmgmult*100), "OldSchoolDescriptionPanel", RoundToNearest( (g_flSpeedDemon_rate - 1) * 100 ), "SpeedDemonDescriptionPanel" );
 	}
 	else
 	{
-		Format(st_perk,128,"Hunter: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Hunter");
 		stDesc = "";
 	}
 	if (g_iInf4_enable==1)
@@ -12238,30 +12314,30 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iWind_enable == 1)
 	{
-		st_perk="Jockey: Ride Like the Wind";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Jockey", "PerkName_RideLikeTheWind");
 		Format(stDesc,128,"%t: +%i%%", "RideLikeTheWindDescriptionPanel", RoundToNearest( (g_flWind_rate - 1) * 100 ) );
 	}
 	else if (iPerk == 2
 		&& g_iCavalier_enable == 1)
 	{
-		st_perk = "Jockey: Cavalier";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Jockey", "PerkName_Cavalier");
 		Format(stDesc,128,"+%i%% %t", RoundToNearest( g_flCavalier_hpmult * 100 ), "UnbreakableHint" );
 	}
 	else if (iPerk == 3
 		&& g_iFrogger_enable == 1)
 	{
-		st_perk = "Jockey: Frogger";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Jockey", "PerkName_Frogger");
 		Format(stDesc, 128, "+%i%% %t +%i%% %t", RoundToNearest( (g_flFrogger_rate - 1) * 100 ), "FroggerDescriptionPanel", RoundToNearest(g_flFrogger_dmgmult*100), "BonusDamageText" );
 	}
 	else if (iPerk == 4
 		&& g_iGhost_enable == 1)
 	{
-		st_perk = "Jockey: Ghost Rider";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Jockey", "PerkName_GhostRider");
 		Format(stDesc, 128, "%i%% %t", RoundToNearest( (1 - (g_iGhost_alpha/255.0)) *100 ), "GhostRiderDescriptionPanel" );
 	}
 	else
 	{
-		Format(st_perk,128,"Jockey: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Jockey");
 		stDesc = "";
 	}
 
@@ -12277,18 +12353,18 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iTwinSF_enable == 1)
 	{
-		st_perk="Spitter: Twin Spitfire";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Spitter", "PerkName_TwinSpitfire");
 		Format(stDesc, 128, "%t", "TwinSpitfireDescriptionPanel" );
 	}
 	else if (iPerk == 2
 		&& g_iMegaAd_enable == 1)
 	{
-		st_perk="Spitter: Mega Adhesive";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Spitter", "PerkName_MegaAdhesive");
 		Format(stDesc, 128, "%t", "MegaAdhesiveDescriptionPanel" );
 	}
 	else
 	{
-		Format(st_perk,128,"Spitter: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Spitter");
 		stDesc="";
 	}
 
@@ -12304,18 +12380,18 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iScatter_enable == 1)
 	{
-		st_perk="Charger: Scattering Ram";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Charger", "PerkName_ScatteringRam");
 		Format(stDesc, 128, "%t", "ScatteringRamDescriptionPanel" );
 	}
 	else if (iPerk == 2
 		&& g_iBullet_enable == 1)
 	{
-		st_perk = "Charger: Speeding Bullet";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Charger", "PerkName_SpeedingBullet");
 		Format(stDesc, 128, "%t: +%i%%", "SpeedingBulletDescriptionPanel", RoundToNearest(g_flBullet_rate*100 - 100) );
 	}
 	else
 	{
-		Format(st_perk,128,"Charger: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Charger");
 		stDesc="";
 	}
 	if (g_iInf7_enable==1
@@ -12330,36 +12406,36 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 	if (iPerk == 1
 		&& g_iAdrenal_enable == 1)
 	{
-		st_perk="Tank: Adrenal Glands";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Tank", "PerkName_AdrenalGlands");
 		Format(stDesc,128,"%t", "AdrenalGlandsDescriptionPanelShort");
 	}
 	else if (iPerk == 2
 		&& g_iJuggernaut_enable == 1)
 	{
-		st_perk="Tank: Juggernaut";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Tank", "PerkName_Juggernaut");
 		Format(stDesc,128,"+%i %t", g_iJuggernaut_hp, "UnbreakableHint");
 	}
 	else if (iPerk == 3
 		&& g_iMetabolic_enable == 1)
 	{
-		st_perk="Tank: Metabolic Boost";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Tank", "PerkName_Metabolic");
 		Format(stDesc,128,"+%i%% %t", RoundToNearest((g_flMetabolic_speedmult-1)*100), "SpeedDemonDescriptionPanel");
 	}
 	else if (iPerk == 4
 		&& g_iStorm_enable == 1)
 	{
-		st_perk="Tank: Storm Caller";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Tank", "PerkName_StormCaller");
 		Format(stDesc,128,"%t", "StormCallerDescriptionPanel");
 	}
 	else if (iPerk == 5
 		&& g_iDouble_enable == 1)
 	{
-		st_perk="Tank: Double the Trouble";
+		Perkmod_FormatInfectedSlot(st_perk, 128, "InfClass_Tank", "PerkName_DoubleTrouble");
 		Format(stDesc,128,"%t", "DoubleTroubleDescriptionPanel");
 	}
 	else
 	{
-		Format(st_perk,128,"Tank: %t", "NotSet");
+		Perkmod_FormatInfectedUnset(st_perk, 128, "InfClass_Tank");
 		stDesc = "";
 	}
 
@@ -12381,10 +12457,10 @@ public Handle:Menu_ShowChoices_Inf (iCid)
 //build menu for Sur1 Perks
 public Handle:Menu_Sur1Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "Xtreme-Infection Perkmod - Superviviente: Primero");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitle(menu, "MenuTitle_Sur1");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iStopping_enable==0			&&	g_iL4D_GameMode==0
@@ -12395,12 +12471,7 @@ public Handle:Menu_Sur1Perk (client)
 	}
 	else
 	{
-		switch (g_iSur1[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Stopping Power %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_StoppingPower", g_iSur1[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i%% %t", RoundToNearest(g_flStopping_dmgmult*100), "BonusDamageText" );
 		DrawPanelText(menu,st_display);
@@ -12415,12 +12486,7 @@ public Handle:Menu_Sur1Perk (client)
 	}
 	else
 	{
-		switch (g_iSur1[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Double Tap %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_DoubleTap", g_iSur1[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t +%i%%", "DoubleTapDescriptionPanel", RoundToNearest(100 * ((1/g_flDT_rate)-1) ) );
 		DrawPanelText(menu,st_display);
@@ -12442,12 +12508,7 @@ public Handle:Menu_Sur1Perk (client)
 	}
 	else
 	{
-		switch (g_iSur1[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Sleight of Hand %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_SleightOfHand", g_iSur1[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t +%i%%", "SleighOfHandDescriptionPanel", RoundToNearest(100 * ((1/g_flSoH_rate)-1) ) );
 		DrawPanelText(menu,st_display);
@@ -12462,12 +12523,7 @@ public Handle:Menu_Sur1Perk (client)
 	}
 	else
 	{
-		switch (g_iSur1[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Pyrotechnician %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Pyrotechnician", g_iSur1[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t", "PyroDescriptionText1");
 		DrawPanelText(menu, st_display);
@@ -12514,10 +12570,10 @@ public Menu_ChooseSur1Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Sur2 Perks
 public Handle:Menu_Sur2Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "Xtreme-Infection Perkmod - Superviviente: Segundo");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitle(menu, "MenuTitle_Sur2");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iUnbreak_enable==0			&&	g_iL4D_GameMode==0
@@ -12528,12 +12584,7 @@ public Handle:Menu_Sur2Perk (client)
 	}
 	else
 	{
-		switch (g_iSur2[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Unbreakable %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Unbreakable", g_iSur2[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i %t", g_iUnbreak_hp, "UnbreakableHint" );
 		DrawPanelText(menu,st_display);
@@ -12548,12 +12599,7 @@ public Handle:Menu_Sur2Perk (client)
 	}
 	else
 	{
-		switch (g_iSur2[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Spirit %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Spirit", g_iSur2[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t", "SpiritDescriptionText" );
 		DrawPanelText(menu,st_display);
@@ -12577,12 +12623,7 @@ public Handle:Menu_Sur2Perk (client)
 	}
 	else
 	{
-		switch (g_iSur2[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Helping Hand %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_HelpingHand", g_iSur2[client]==3);
 		DrawPanelItem(menu,st_display);
 
 		decl iBuff;
@@ -12613,12 +12654,7 @@ public Handle:Menu_Sur2Perk (client)
 		}
 		else
 		{
-			switch (g_iSur2[client])
-			{
-				case 4: st_current="(CURRENT)";
-				default: st_current="";
-			}
-			Format(st_display,64,"Martial Artist %s",st_current);
+			Perkmod_FormatPerkItem(st_display, 64, "PerkName_MartialArtist", g_iSur2[client]==4);
 			DrawPanelItem(menu,st_display);
 			Format(st_display,64,"%t", "MartialArtistDescriptionPanel1");
 			DrawPanelText(menu, st_display);
@@ -12669,10 +12705,10 @@ public Menu_ChooseSur2Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Sur3 Perks
 public Handle:Menu_Sur3Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "Xtreme-Infection Perkmod - Superviviente: Tercero");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitle(menu, "MenuTitle_Sur3");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iPack_enable==0			&&	g_iL4D_GameMode==0
@@ -12683,12 +12719,7 @@ public Handle:Menu_Sur3Perk (client)
 	}
 	else
 	{
-		switch (g_iSur3[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Pack Rat %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_PackRat", g_iSur3[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t +%i%%", "PackRatDescriptionPanel", RoundToNearest(g_flPack_ammomult*100) );
 		DrawPanelText(menu,st_display);
@@ -12703,12 +12734,7 @@ public Handle:Menu_Sur3Perk (client)
 	}
 	else
 	{
-		switch (g_iSur3[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Chem Reliant %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_ChemReliant", g_iSur3[client]==2);
 		DrawPanelItem(menu,st_display);
 		if (g_iChem_buff > 0)
 		{
@@ -12728,12 +12754,7 @@ public Handle:Menu_Sur3Perk (client)
 	}
 	else
 	{
-		switch (g_iSur3[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Hard to Kill %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_HardToKill", g_iSur3[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t", "HardToKillDescriptionText");
 		DrawPanelText(menu,st_display);
@@ -12750,12 +12771,7 @@ public Handle:Menu_Sur3Perk (client)
 	}
 	else
 	{
-		switch (g_iSur3[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Extreme Conditioning %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_ExtremeConditioning", g_iSur3[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "MartialArtistDescriptionPanelCoop", RoundToNearest(100*g_flExtreme_rate-100) );
 		DrawPanelText(menu,st_display);
@@ -12771,12 +12787,7 @@ public Handle:Menu_Sur3Perk (client)
 	}
 	else
 	{
-		switch (g_iSur3[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Little Leaguer %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_LittleLeaguer", g_iSur3[client]==5);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t", "LittleLeaguerDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -12824,10 +12835,10 @@ public Menu_ChooseSur3Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf1 Perks
 public Handle:Menu_Inf1Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Boomer");
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Boomer");
 	decl String:st_display[128];
-	decl String:st_current[10];
 
 	//set name for perk 1
 	if (g_iBarf_enable==0)
@@ -12836,12 +12847,7 @@ public Handle:Menu_Inf1Perk (client)
 	}
 	else
 	{
-		switch (g_iInf1[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Barf Bagged %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_BarfBagged", g_iInf1[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"%t", "BarfBaggedDescriptionPanel");
 		DrawPanelText(menu,st_display);
@@ -12854,16 +12860,12 @@ public Handle:Menu_Inf1Perk (client)
 	}
 	else
 	{
-		switch (g_iInf1[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Blind Luck %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_BlindLuck", g_iInf1[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"%t: %i%%", "AcidVomitDescriptionPanel", RoundToNearest(100 - g_flBlind_cdmult*100) );
 		DrawPanelText(menu,st_display);
-		DrawPanelText(menu,"(thanks to Grandwazir for this perk!)");
+		Format(st_display,128,"%t", "BlindLuckCredit");
+		DrawPanelText(menu,st_display);
 	}
 
 	//set name for perk 3
@@ -12873,16 +12875,12 @@ public Handle:Menu_Inf1Perk (client)
 	}
 	else
 	{
-		switch (g_iInf1[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Dead Wreckening %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_DeadWreckening", g_iInf1[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"%t: +%i%%", "DeadWreckeningDescriptionPanel", RoundToNearest(100*g_flDead_dmgmult));
 		DrawPanelText(menu,st_display);
-		DrawPanelText(menu,"survivors are vomited upon");
+		Format(st_display,128,"%t", "DeadWreckeningExtra");
+		DrawPanelText(menu,st_display);
 	}
 
 	//set name for perk 4
@@ -12892,12 +12890,7 @@ public Handle:Menu_Inf1Perk (client)
 	}
 	else
 	{
-		switch (g_iInf1[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Motion Sickness %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_MotionSickness", g_iInf1[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"%t", "MotionSicknessDescriptionPanel");
 		DrawPanelText(menu,st_display);
@@ -12942,10 +12935,10 @@ public Menu_ChooseInf1Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf2 Perks
 public Handle:Menu_Inf2Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Tank");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Tank");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iAdrenal_enable==0)
@@ -12954,12 +12947,7 @@ public Handle:Menu_Inf2Perk (client)
 	}
 	else
 	{
-		switch (g_iInf2[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Adrenal Glands %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_AdrenalGlands", g_iInf2[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "AdrenalGlandsDescriptionPanel1", RoundToNearest(100 * ((1/g_flAdrenal_punchcdmult)-1) ) );
 		DrawPanelText(menu,st_display);
@@ -12976,12 +12964,7 @@ public Handle:Menu_Inf2Perk (client)
 	}
 	else
 	{
-		switch (g_iInf2[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Juggernaut %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Juggernaut", g_iInf2[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"+%i %t", g_iJuggernaut_hp, "UnbreakableHint");
 		DrawPanelText(menu,st_display);
@@ -12994,12 +12977,7 @@ public Handle:Menu_Inf2Perk (client)
 	}
 	else
 	{
-		switch (g_iInf2[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Metabolic Boost %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Metabolic", g_iInf2[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"+%i%% %t", RoundToNearest((g_flMetabolic_speedmult-1)*100), "SpeedDemonDescriptionPanel");
 		DrawPanelText(menu,st_display);
@@ -13012,12 +12990,7 @@ public Handle:Menu_Inf2Perk (client)
 	}
 	else
 	{
-		switch (g_iInf2[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Storm Caller %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_StormCaller", g_iInf2[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"%t", "StormCallerDescriptionPanel");
 		DrawPanelText(menu,st_display);
@@ -13030,12 +13003,7 @@ public Handle:Menu_Inf2Perk (client)
 	}
 	else
 	{
-		switch (g_iInf2[client])
-		{
-			case 5: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Double the Trouble %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_DoubleTrouble", g_iInf2[client]==5);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,128,"%t", "DoubleTroubleDescriptionPanel");
 		DrawPanelText(menu,st_display);
@@ -13085,10 +13053,10 @@ public Menu_ChooseInf2Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf3 Perks
 public Handle:Menu_Inf3Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Smoker");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Smoker");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iTongue_enable==0)
@@ -13097,12 +13065,7 @@ public Handle:Menu_Inf3Perk (client)
 	}
 	else
 	{
-		switch (g_iInf3[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Tongue Twister %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_TongueTwister", g_iInf3[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "TongueTwisterDescriptionPanel1", RoundToNearest(100*(g_flTongue_speedmult-1)) );
 		DrawPanelText(menu,st_display);
@@ -13119,12 +13082,7 @@ public Handle:Menu_Inf3Perk (client)
 	}
 	else
 	{
-		switch (g_iInf3[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Squeezer %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Squeezer", g_iInf3[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "SqueezerDescriptionText", RoundToNearest(g_flSqueezer_dmgmult*100) );
 		DrawPanelText(menu,st_display);
@@ -13137,12 +13095,7 @@ public Handle:Menu_Inf3Perk (client)
 	}
 	else
 	{
-		switch (g_iInf3[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Drag and Drop %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_DragAndDrop", g_iInf3[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t", "DragAndDropDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -13155,12 +13108,7 @@ public Handle:Menu_Inf3Perk (client)
 	}
 	else
 	{
-		switch (g_iInf3[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Olj's Smoke IT! %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_SmokeIt", g_iInf3[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t", "SmokeItDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -13205,10 +13153,10 @@ public Menu_ChooseInf3Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf4 Perks
 public Handle:Menu_Inf4Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Hunter");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Hunter");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iBody_enable==0)
@@ -13217,12 +13165,7 @@ public Handle:Menu_Inf4Perk (client)
 	}
 	else
 	{
-		switch (g_iInf4[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Body Slam %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_BodySlam", g_iInf4[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t %i", "BodySlamDescriptionPanel", g_iBody_minbound);
 		DrawPanelText(menu,st_display);
@@ -13235,12 +13178,7 @@ public Handle:Menu_Inf4Perk (client)
 	}
 	else
 	{
-		switch (g_iInf4[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Efficient Killer %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_EfficientKiller", g_iInf4[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i%% %t", RoundToNearest(g_flEfficient_dmgmult*100), "BonusDamageText" );
 		DrawPanelText(menu,st_display);
@@ -13253,12 +13191,7 @@ public Handle:Menu_Inf4Perk (client)
 	}
 	else
 	{
-		switch (g_iInf4[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Grasshopper %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Grasshopper", g_iInf4[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "GrasshopperDescriptionPanel", RoundToNearest( (g_flGrass_rate - 1) * 100 ) );
 		DrawPanelText(menu,st_display);
@@ -13271,12 +13204,7 @@ public Handle:Menu_Inf4Perk (client)
 	}
 	else
 	{
-		switch (g_iInf4[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Speed Demon %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_SpeedDemon", g_iInf4[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i%% %t +%i%% %t", RoundToNearest(g_flSpeedDemon_dmgmult*100), "OldSchoolDescriptionPanel", RoundToNearest( (g_flSpeedDemon_rate - 1) * 100 ), "SpeedDemonDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -13321,10 +13249,10 @@ public Menu_ChooseInf4Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf5 Perks
 public Handle:Menu_Inf5Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Jockey");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Jockey");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iWind_enable==0)
@@ -13333,12 +13261,7 @@ public Handle:Menu_Inf5Perk (client)
 	}
 	else
 	{
-		switch (g_iInf5[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Ride Like the Wind %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_RideLikeTheWind", g_iInf5[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "RideLikeTheWindDescriptionPanel", RoundToNearest( (g_flWind_rate - 1) * 100 ) );
 		DrawPanelText(menu,st_display);
@@ -13351,12 +13274,7 @@ public Handle:Menu_Inf5Perk (client)
 	}
 	else
 	{
-		switch (g_iInf5[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Cavalier %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Cavalier", g_iInf5[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i%% %t", RoundToNearest( g_flCavalier_hpmult * 100 ), "UnbreakableHint" );
 		DrawPanelText(menu,st_display);
@@ -13369,12 +13287,7 @@ public Handle:Menu_Inf5Perk (client)
 	}
 	else
 	{
-		switch (g_iInf5[client])
-		{
-			case 3: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Frogger %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_Frogger", g_iInf5[client]==3);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i%% %t +%i%% %t", RoundToNearest( (g_flFrogger_rate - 1) * 100 ), "FroggerDescriptionPanel", RoundToNearest(g_flFrogger_dmgmult*100), "BonusDamageText" );
 		DrawPanelText(menu,st_display);
@@ -13387,12 +13300,7 @@ public Handle:Menu_Inf5Perk (client)
 	}
 	else
 	{
-		switch (g_iInf5[client])
-		{
-			case 4: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Ghost Rider %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_GhostRider", g_iInf5[client]==4);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%i%% %t", RoundToNearest( (1 - (g_iGhost_alpha/255.0)) *100 ), "GhostRiderDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -13437,10 +13345,10 @@ public Menu_ChooseInf5Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf6 Perks
 public Handle:Menu_Inf6Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Spitter");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Spitter");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iTwinSF_enable==0)
@@ -13449,12 +13357,7 @@ public Handle:Menu_Inf6Perk (client)
 	}
 	else
 	{
-		switch (g_iInf6[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Twin Spitfire %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_TwinSpitfire", g_iInf6[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64, "%t", "TwinSpitfireDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -13467,12 +13370,7 @@ public Handle:Menu_Inf6Perk (client)
 	}
 	else
 	{
-		switch (g_iInf6[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Mega Adhesive %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_MegaAdhesive", g_iInf6[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64, "%t: %i%%", "MegaAdhesiveDescriptionPanel", RoundToNearest( 100 - (g_flMegaAd_slow) * 100 ) );
 		DrawPanelText(menu,st_display);
@@ -13511,10 +13409,10 @@ public Menu_ChooseInf6Perk (Handle:menu, MenuAction:action, param1, param2)
 //build menu for Inf7 Perks
 public Handle:Menu_Inf7Perk (client)
 {
+	Perkmod_SetMenuLang(client);
 	new Handle:menu = CreatePanel();
-	SetPanelTitle(menu, "tPoncho's Perkmod - Charger");
-	decl String:st_display[MAXPLAYERS+1];
-	decl String:st_current[10];
+	Perkmod_SetMenuTitleClass(menu, "InfClass_Charger");
+	decl String:st_display[64];
 
 	//set name for perk 1
 	if (g_iScatter_enable==0)
@@ -13523,12 +13421,7 @@ public Handle:Menu_Inf7Perk (client)
 	}
 	else
 	{
-		switch (g_iInf7[client])
-		{
-			case 1: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Scattering Ram %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_ScatteringRam", g_iInf7[client]==1);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"+%i%% %t", RoundToNearest(g_flScatter_hpmult*100), "ScatteringRamDescriptionPanel" );
 		DrawPanelText(menu,st_display);
@@ -13541,12 +13434,7 @@ public Handle:Menu_Inf7Perk (client)
 	}
 	else
 	{
-		switch (g_iInf7[client])
-		{
-			case 2: st_current="(CURRENT)";
-			default: st_current="";
-		}
-		Format(st_display,64,"Speeding Bullet %s",st_current);
+		Perkmod_FormatPerkItem(st_display, 64, "PerkName_SpeedingBullet", g_iInf7[client]==2);
 		DrawPanelItem(menu,st_display);
 		Format(st_display,64,"%t: +%i%%", "SpeedingBulletDescriptionPanel", RoundToNearest(g_flBullet_rate*100 - 100) );
 		DrawPanelText(menu,st_display);

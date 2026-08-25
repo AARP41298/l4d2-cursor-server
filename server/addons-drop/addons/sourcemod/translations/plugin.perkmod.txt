@@ -1141,4 +1141,370 @@
 		"fr"	"Warning: You are now in BLACK AND WHITE health!!!"
 		"es"	"Cuidado: Ahora estas con salud BLANCO Y NEGRA!!!"
 	}
+
+	"PerkCurrentMarker"
+	{
+		"en"	"(CURRENT)"
+		"es"	"(ACTUAL)"
+	}
+
+	"MenuTitle_Main"
+	{
+		"en"	"Xtreme-Infection Perkmod: Main Menu"
+		"es"	"Xtreme-Infection Perkmod: Menu Principal"
+	}
+
+	"MenuTitle_ActivePerks"
+	{
+		"en"	"Xtreme-Infection Perkmod: Active Perks"
+		"es"	"Xtreme-Infection Perkmod: Perks Activos"
+	}
+
+	"MenuTitle_Sur1"
+	{
+		"en"	"Xtreme-Infection Perkmod - Survivor: First"
+		"es"	"Xtreme-Infection Perkmod - Superviviente: Primero"
+	}
+
+	"MenuTitle_Sur2"
+	{
+		"en"	"Xtreme-Infection Perkmod - Survivor: Second"
+		"es"	"Xtreme-Infection Perkmod - Superviviente: Segundo"
+	}
+
+	"MenuTitle_Sur3"
+	{
+		"en"	"Xtreme-Infection Perkmod - Survivor: Third"
+		"es"	"Xtreme-Infection Perkmod - Superviviente: Tercero"
+	}
+
+	"MenuTitle_Infected"
+	{
+		"en"	"Xtreme-Infection Perkmod - %s"
+		"es"	"Xtreme-Infection Perkmod - %s"
+	}
+
+	"MenuSlot_Sur1"
+	{
+		"en"	"Survivors - First (%s)"
+		"es"	"Supervivientes - Primero (%s)"
+	}
+
+	"MenuSlot_Sur2"
+	{
+		"en"	"Survivors - Second (%s)"
+		"es"	"Supervivientes - Segundo (%s)"
+	}
+
+	"MenuSlot_Sur3"
+	{
+		"en"	"Survivors - Third (%s)"
+		"es"	"Supervivientes - Tercero (%s)"
+	}
+
+	"MenuSlotLabel_Sur1"
+	{
+		"en"	"Survivor: First"
+		"es"	"Superviviente: Primero"
+	}
+
+	"MenuSlotLabel_Sur2"
+	{
+		"en"	"Survivor: Second"
+		"es"	"Superviviente: Segundo"
+	}
+
+	"MenuSlotLabel_Sur3"
+	{
+		"en"	"Survivor: Third"
+		"es"	"Superviviente: Tercero"
+	}
+
+	"MenuSlot_Infected"
+	{
+		"en"	"%s: %s"
+		"es"	"%s: %s"
+	}
+
+	"InfClass_Boomer"
+	{
+		"en"	"Boomer"
+		"es"	"Boomer"
+	}
+
+	"InfClass_Smoker"
+	{
+		"en"	"Smoker"
+		"es"	"Smoker"
+	}
+
+	"InfClass_Hunter"
+	{
+		"en"	"Hunter"
+		"es"	"Hunter"
+	}
+
+	"InfClass_Jockey"
+	{
+		"en"	"Jockey"
+		"es"	"Jockey"
+	}
+
+	"InfClass_Spitter"
+	{
+		"en"	"Spitter"
+		"es"	"Spitter"
+	}
+
+	"InfClass_Charger"
+	{
+		"en"	"Charger"
+		"es"	"Charger"
+	}
+
+	"InfClass_Tank"
+	{
+		"en"	"Tank"
+		"es"	"Tank"
+	}
+
+	"BlindLuckCredit"
+	{
+		"en"	"(thanks to Grandwazir for this perk!)"
+		"es"	"(gracias a Grandwazir por este perk!)"
+	}
+
+	"DeadWreckeningExtra"
+	{
+		"en"	"survivors are vomited upon"
+		"es"	"cuando los supervivientes estan vomitado"
+	}
+
+	"PerkName_StoppingPower"
+	{
+		"en"	"Stopping Power"
+		"es"	"Poder de parada"
+	}
+
+	"PerkName_DoubleTap"
+	{
+		"en"	"Double Tap"
+		"es"	"Disparo doble"
+	}
+
+	"PerkName_SleightOfHand"
+	{
+		"en"	"Sleight of Hand"
+		"es"	"Manos agiles"
+	}
+
+	"PerkName_Pyrotechnician"
+	{
+		"en"	"Pyrotechnician"
+		"es"	"Pirotecnico"
+	}
+
+	"PerkName_Unbreakable"
+	{
+		"en"	"Unbreakable"
+		"es"	"Irrompible"
+	}
+
+	"PerkName_Spirit"
+	{
+		"en"	"Spirit"
+		"es"	"Espiritu"
+	}
+
+	"PerkName_HelpingHand"
+	{
+		"en"	"Helping Hand"
+		"es"	"Mano amiga"
+	}
+
+	"PerkName_MartialArtist"
+	{
+		"en"	"Martial Artist"
+		"es"	"Artista marcial"
+	}
+
+	"PerkName_PackRat"
+	{
+		"en"	"Pack Rat"
+		"es"	"Acumulador"
+	}
+
+	"PerkName_ChemReliant"
+	{
+		"en"	"Chem Reliant"
+		"es"	"Dependiente quimico"
+	}
+
+	"PerkName_HardToKill"
+	{
+		"en"	"Hard to Kill"
+		"es"	"Dificil de matar"
+	}
+
+	"PerkName_ExtremeConditioning"
+	{
+		"en"	"Extreme Conditioning"
+		"es"	"Condicion extrema"
+	}
+
+	"PerkName_LittleLeaguer"
+	{
+		"en"	"Little Leaguer"
+		"es"	"Bateador"
+	}
+
+	"PerkName_BarfBagged"
+	{
+		"en"	"Barf Bagged"
+		"es"	"Vomito masivo"
+	}
+
+	"PerkName_BlindLuck"
+	{
+		"en"	"Blind Luck"
+		"es"	"Suerte ciega"
+	}
+
+	"PerkName_DeadWreckening"
+	{
+		"en"	"Dead Wreckening"
+		"es"	"Horda letal"
+	}
+
+	"PerkName_MotionSickness"
+	{
+		"en"	"Motion Sickness"
+		"es"	"Mareo"
+	}
+
+	"PerkName_TongueTwister"
+	{
+		"en"	"Tongue Twister"
+		"es"	"Lengua retorcida"
+	}
+
+	"PerkName_Squeezer"
+	{
+		"en"	"Squeezer"
+		"es"	"Estrangulador"
+	}
+
+	"PerkName_DragAndDrop"
+	{
+		"en"	"Drag and Drop"
+		"es"	"Arrastre libre"
+	}
+
+	"PerkName_SmokeIt"
+	{
+		"en"	"Smoke IT!"
+		"es"	"Smoke IT!"
+	}
+
+	"PerkName_BodySlam"
+	{
+		"en"	"Body Slam"
+		"es"	"Planchazo"
+	}
+
+	"PerkName_EfficientKiller"
+	{
+		"en"	"Efficient Killer"
+		"es"	"Asesino eficiente"
+	}
+
+	"PerkName_Grasshopper"
+	{
+		"en"	"Grasshopper"
+		"es"	"Saltamontes"
+	}
+
+	"PerkName_SpeedDemon"
+	{
+		"en"	"Speed Demon"
+		"es"	"Demonio veloz"
+	}
+
+	"PerkName_RideLikeTheWind"
+	{
+		"en"	"Ride Like the Wind"
+		"es"	"Cabalga el viento"
+	}
+
+	"PerkName_Cavalier"
+	{
+		"en"	"Cavalier"
+		"es"	"Caballero"
+	}
+
+	"PerkName_Frogger"
+	{
+		"en"	"Frogger"
+		"es"	"Rana"
+	}
+
+	"PerkName_GhostRider"
+	{
+		"en"	"Ghost Rider"
+		"es"	"Jinete fantasma"
+	}
+
+	"PerkName_TwinSpitfire"
+	{
+		"en"	"Twin Spitfire"
+		"es"	"Escupitajo doble"
+	}
+
+	"PerkName_MegaAdhesive"
+	{
+		"en"	"Mega Adhesive"
+		"es"	"Mega adhesivo"
+	}
+
+	"PerkName_ScatteringRam"
+	{
+		"en"	"Scattering Ram"
+		"es"	"Embiste disperso"
+	}
+
+	"PerkName_SpeedingBullet"
+	{
+		"en"	"Speeding Bullet"
+		"es"	"Bala veloz"
+	}
+
+	"PerkName_AdrenalGlands"
+	{
+		"en"	"Adrenal Glands"
+		"es"	"Glandulas adrenales"
+	}
+
+	"PerkName_Juggernaut"
+	{
+		"en"	"Juggernaut"
+		"es"	"Juggernaut"
+	}
+
+	"PerkName_Metabolic"
+	{
+		"en"	"Metabolic Boost"
+		"es"	"Impulso metabolico"
+	}
+
+	"PerkName_StormCaller"
+	{
+		"en"	"Storm Caller"
+		"es"	"Invocador de tormenta"
+	}
+
+	"PerkName_DoubleTrouble"
+	{
+		"en"	"Double the Trouble"
+		"es"	"Doble problema"
+	}
 }
