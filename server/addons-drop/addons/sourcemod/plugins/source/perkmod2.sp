@@ -322,7 +322,7 @@ new g_iGrenType[MAXPLAYERS+1];
 //since we want to give pipe bombs after a given
 //number of ticks
 new g_iPyroTicks[MAXPLAYERS+1];
-new g_iPyroRegisterIndex[MAXPLAYERS+1] = -1;
+new g_iPyroRegisterIndex[MAXPLAYERS+1] = {-1, ...};
 //and this tracks how many have DT
 new g_iPyroRegisterCount = 0;
 
@@ -341,19 +341,19 @@ new Handle:g_iSpiritTimer[MAXPLAYERS+1];
 //a value indicating a client index with DT
 //so the plugin doesn't have to cycle a full
 //18 times per game frame just for double tap.
-new g_iDTRegisterIndex[MAXPLAYERS+1] = -1;
+new g_iDTRegisterIndex[MAXPLAYERS+1] = {-1, ...};
 //and this tracks how many have DT
 new g_iDTRegisterCount = 0;
 //this tracks the current active weapon id
 //in case the player changes guns
-new g_iDTEntid[MAXPLAYERS+1] = -1;
+new g_iDTEntid[MAXPLAYERS+1] = {-1, ...};
 //this tracks the engine time of the next
 //attack for the weapon, after modification
 //(modified interval + engine time)
-new Float:g_flDTNextTime[MAXPLAYERS+1] = -1.0;
+new Float:g_flDTNextTime[MAXPLAYERS+1] = {-1.0, ...};
 //this tracks whether the equipped gun is
 //a semi auto weapon, saves us a lot of processing time
-new bool:g_bDTsemiauto[MAXPLAYERS+1] = false;
+new bool:g_bDTsemiauto[MAXPLAYERS+1] = {false, ...};
 
 //SLEIGHT OF HAND PERK
 //this keeps track of the default values for
@@ -376,29 +376,29 @@ const Float:g_flSoHPumpE = 0.6;
 
 //MARTIAL ARTIST PERK
 //similar to Double Tap
-new g_iMARegisterIndex[MAXPLAYERS+1] = -1;
+new g_iMARegisterIndex[MAXPLAYERS+1] = {-1, ...};
 //and this tracks how many have MA
 new g_iMARegisterCount = 0;
 //these are similar to those used by Double Tap
-new Float:g_flMANextTime[MAXPLAYERS+1] = -1.0;
-new g_iMAEntid[MAXPLAYERS+1] = -1;
-new g_iMAEntid_notmelee[MAXPLAYERS+1] = -1;
+new Float:g_flMANextTime[MAXPLAYERS+1] = {-1.0, ...};
+new g_iMAEntid[MAXPLAYERS+1] = {-1, ...};
+new g_iMAEntid_notmelee[MAXPLAYERS+1] = {-1, ...};
 //this tracks the attack count, similar to twinSF
-new g_iMAAttCount[MAXPLAYERS+1] = -1;
+new g_iMAAttCount[MAXPLAYERS+1] = {-1, ...};
 
 //PACK RAT PERK
 //prevents perk from applying multiple times within a short interval
 //ie. when two related events fire at the same time that both trigger PR
-new bool:g_bPRalreadyApplying[MAXPLAYERS+1] = false;
+new bool:g_bPRalreadyApplying[MAXPLAYERS+1] = {false, ...};
 
 //VARIOUS INFECTED PERKS
 //this is used by most cooldown-reducing SI
 //perks, keeps track of when an ability was used
-new Float:g_flTimeStamp[MAXPLAYERS+1] = -1.0;
+new Float:g_flTimeStamp[MAXPLAYERS+1] = {-1.0, ...};
 //contains id of target, for given disabler
-new g_iMyDisableTarget[MAXPLAYERS+1] = -1;
+new g_iMyDisableTarget[MAXPLAYERS+1] = {-1, ...};
 //contains id of disabler, for given survivor
-new g_iMyDisabler[MAXPLAYERS+1] = -1;
+new g_iMyDisabler[MAXPLAYERS+1] = {-1, ...};
 
 //BARF BAGGED PERK
 //used to track how many survivors are boomed at a given time
@@ -412,11 +412,11 @@ new g_iSlimerLast=0;
 
 //TWIN SPITFIRE PERK
 //similar to Double Tap
-new g_iTwinSFShotCount[MAXPLAYERS+1] = 0;
+new g_iTwinSFShotCount[MAXPLAYERS+1] = {0, ...};
 
 //MEGA ADHESIVE PERK
-new Handle:g_hMegaAdTimer[MAXPLAYERS+1] = INVALID_HANDLE;
-new g_iMegaAdCount[MAXPLAYERS+1] = 0;
+new Handle:g_hMegaAdTimer[MAXPLAYERS+1] = {INVALID_HANDLE, ...};
+new g_iMegaAdCount[MAXPLAYERS+1] = {0, ...};
 
 //TANKS
 //tracks whether tanks are existent, and what perks have been given
@@ -431,8 +431,8 @@ new g_iTankBotTicks=0;	//after 3 ticks, if tank is still a bot then give buffs
 new g_iTank_MainId=0;	//tracks which tank is the "original", for Double Trouble
 //similar to Double Tap, only used for punches
 new g_iAdrenalRegisterCount = 0;
-new g_iAdrenalRegisterIndex[MAXPLAYERS+1] = -1;
-new Float:g_flAdrenalTimeStamp[MAXPLAYERS+1] = -1.0;
+new g_iAdrenalRegisterIndex[MAXPLAYERS+1] = {-1, ...};
+new Float:g_flAdrenalTimeStamp[MAXPLAYERS+1] = {-1.0, ...};
 
 //VARS TO STORE CONVAR VALUES
 //declare revive time var
@@ -1168,9 +1168,9 @@ public OnPluginStart()
 	g_flReviveTime		=	GetConVarFloat(FindConVar("survivor_revive_duration"));
 
 	//get offsets
-	g_iHPBuffO			=	FindSendPropOffs("CTerrorPlayer","m_healthBuffer");
-	g_iHPBuffTimeO		=	FindSendPropOffs("CTerrorPlayer","m_healthBufferTime");
-	g_iRevCountO		=	FindSendPropOffs("CTerrorPlayer","m_currentReviveCount");
+	g_iHPBuffO			=	FindSendPropInfo("CTerrorPlayer","m_healthBuffer");
+	g_iHPBuffTimeO		=	FindSendPropInfo("CTerrorPlayer","m_healthBufferTime");
+	g_iRevCountO		=	FindSendPropInfo("CTerrorPlayer","m_currentReviveCount");
 	g_iMeleeFatigueO	=	FindSendPropInfo("CTerrorPlayer","m_iShovePenalty");
 	g_iNextPAttO		=	FindSendPropInfo("CBaseCombatWeapon","m_flNextPrimaryAttack");
 	g_iNextSAttO		=	FindSendPropInfo("CBaseCombatWeapon","m_flNextSecondaryAttack");
@@ -1192,9 +1192,9 @@ public OnPluginStart()
 	g_iIsGhostO			=	FindSendPropInfo("CTerrorPlayer","m_isGhost");
 	//g_iClipO			=	FindSendPropInfo("CTerrorGun","m_iClip1");
 	
-	g_iNextActO			=	FindSendPropOffs("CBaseAbility","m_nextActivationTimer");
+	g_iNextActO			=	FindSendPropInfo("CBaseAbility","m_nextActivationTimer");
 	LogMessage("Retrieved g_iNextActO = %i", g_iNextActO);
-	g_iAttackTimerO		=	FindSendPropOffs("CClaw","m_attackTimer");
+	g_iAttackTimerO		=	FindSendPropInfo("CClaw","m_attackTimer");
 	LogMessage("Retrieved g_iAttackTimerO = %i", g_iAttackTimerO);
 
 	//CREATE AND INITIALIZE CONVARS
@@ -7688,7 +7688,7 @@ Pyro_Timer()
 			continue;
 		}
 
-		new iAmmoO=FindDataMapOffs(iCid,"m_iAmmo");
+		new iAmmoO=FindDataMapInfo(iCid,"m_iAmmo");
 
 		//+48 = pipe bombs
 		//+52 = molotovs
@@ -8709,7 +8709,7 @@ public Action:HelpHand_Delayed (Handle:timer, any:iCid)
 		//----DEBUG----
 		//PrintToChatAll("\x05helphand\x03 attempting to give reviver bonus to \x01%i",iCid);
 		//new g_iHPBuffTimeO;
-		//g_iHPBuffTimeO = FindSendPropOffs("CTerrorPlayer","m_healthBufferTime");
+		//g_iHPBuffTimeO = FindSendPropInfo("CTerrorPlayer","m_healthBufferTime");
 		//PrintToChatAll("\x03- health buffer time \x01%i %f",g_iHPBuffTimeO, GetEntDataFloat(iCid,g_iHPBuffTimeO));
 
 		decl iBuff;
@@ -8778,7 +8778,7 @@ public Event_AmmoPickup (Handle:event, const String:name[], bool:dontBroadcast)
 PR_GiveFullAmmo (iCid)
 {
 	//formula: max + pack rat + max clip size - currently in clip
-	//new iAmmoO=FindDataMapOffs(iCid,"m_iAmmo");
+	//new iAmmoO=FindDataMapInfo(iCid,"m_iAmmo");
 
 	if (g_iL4D_12 == 2)
 	{
@@ -8792,7 +8792,7 @@ PR_GiveFullAmmo (iCid)
 	}
 	else if (g_iL4D_12 == 1)
 	{
-		new iAmmoO=FindDataMapOffs(iCid,"m_iAmmo");
+		new iAmmoO=FindDataMapInfo(iCid,"m_iAmmo");
 		decl iAmmoCount;
 
 		//huntingrifle offset +8
@@ -8828,7 +8828,7 @@ public Action:PR_GiveFullAmmo_delayed (Handle:timer, any:iCid)
 		|| GetClientTeam(iCid)!=2)
 		return Plugin_Stop;
 
-	new iAmmoO=FindDataMapOffs(iCid,"m_iAmmo");
+	new iAmmoO=FindDataMapInfo(iCid,"m_iAmmo");
 	decl iAmmoO_offset;
 	decl iAmmoCount;
 
@@ -10928,7 +10928,7 @@ public Action:DoubleTrouble_SpawnTank (Handle:timer, any:iCid)
 
 	decl iSpawner;
 	new iCount = 0;
-	new iReg[8] = 0;
+	new iReg[8] = {0, ...};
 	//before we can spawn the tank, need to find a suitable players
 	for (new iI=1 ; iI<=MaxClients ; iI++)
 	{
@@ -13536,7 +13536,7 @@ public GetDefaultPerks(client)
 	
 	new String:authid[32];
 	
-	GetClientAuthString(client, authid, sizeof(authid));
+	GetClientAuthId(client, AuthId_Steam2, authid, sizeof(authid));
 	
   decl String:query[256];
   Format(query, sizeof(query), "SELECT sur1, sur2, sur3, inf1, inf2, inf3, inf4, inf5, inf6, inf7 FROM perkmod2 WHERE steamid = '%s'", authid);
@@ -13607,7 +13607,7 @@ public SaveDefaultPerks(client)
 
 	new String:authid[32], String:query[256];
 	
-	GetClientAuthString(client, authid, sizeof(authid));
+	GetClientAuthId(client, AuthId_Steam2, authid, sizeof(authid));
   Format(query, sizeof(query), "SELECT sur1 FROM perkmod2 WHERE steamid = '%s'", authid);
   SQL_TQuery(db, SQLSaveDefaultPerks, query, client);
 }
@@ -13625,12 +13625,12 @@ public SQLSaveDefaultPerks(Handle:owner, Handle:hndl, const String:error[], any:
 
 	if (SQL_GetRowCount(hndl) > 0)
 	{
-		GetClientAuthString(data, authid, sizeof(authid));
+		GetClientAuthId(data, AuthId_Steam2, authid, sizeof(authid));
 	  Format(query, sizeof(query), "UPDATE perkmod2 SET sur1 = '%d', sur2 = '%d', sur3 = '%d', inf1 = '%d', inf2 = '%d', inf3 = '%d', inf4 = '%d', inf5 = '%d', inf6 = '%d', inf7 = '%d' WHERE steamid = '%s'", g_iSur1[data], g_iSur2[data], g_iSur3[data], g_iInf1[data], g_iInf2[data], g_iInf3[data], g_iInf4[data], g_iInf5[data], g_iInf6[data], g_iInf7[data], authid);
 	}
 	else
 	{
-		GetClientAuthString(data, authid, sizeof(authid));
+		GetClientAuthId(data, AuthId_Steam2, authid, sizeof(authid));
 	  Format(query, sizeof(query), "INSERT INTO perkmod2 (sur1, sur2, sur3, inf1, inf2, inf3, inf4, inf5, inf6, inf7, steamid) VALUES ('%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%s')", g_iSur1[data], g_iSur2[data], g_iSur3[data], g_iInf1[data], g_iInf2[data], g_iInf3[data], g_iInf4[data], g_iInf5[data], g_iInf6[data], g_iInf7[data], authid);
 	}
 	
@@ -13708,7 +13708,7 @@ public Action:Debug_OnSay(iCid, args)
 
 	if (StrEqual(st_chat,"debug death",false)==true)
 	{
-		new iDeathTimeO=FindSendPropOffs("CTerrorPlayer","m_flDeathTime");
+		new iDeathTimeO=FindSendPropInfo("CTerrorPlayer","m_flDeathTime");
 		PrintToChat(iCid,"\x03[SM] [DEBUG] m_fldeathtime offset \x01%i\x03", iDeathTimeO);
 		PrintToChat(iCid,"\x03[SM] [DEBUG] -value at offset: \x01%f", GetEntDataFloat(iCid,iDeathTimeO));
 		return Plugin_Continue;
@@ -13731,7 +13731,7 @@ public Action:Debug_OnSay(iCid, args)
 	if (StrEqual(st_chat,"debug frustration",false)==true)
 	{
 		PrintToChat(iCid,"\x03[SM] [DEBUG] retrieving frustration values");
-		new iOffs=FindSendPropOffs("Tank","m_frustration");
+		new iOffs=FindSendPropInfo("Tank","m_frustration");
 		PrintToChat(iCid,"\x03- offset \x01%i",iOffs);
 		PrintToChat(iCid,"\x03- value at offset \x01%i", GetEntData(iCid,iOffs) );
 
@@ -13755,9 +13755,9 @@ public Action:Debug_OnSay(iCid, args)
 
 	if (StrEqual(st_chat,"debug ammo2",false)==true)
 	{
-		//new iAmmoO=FindDataMapOffs(iCid,"m_iAmmo");
+		//new iAmmoO=FindDataMapInfo(iCid,"m_iAmmo");
 		new iEntid = GetEntDataEnt2(iCid,g_iActiveWO);
-		new iPrimO = FindSendPropOffs("CTerrorGun","m_iExtraPrimaryAmmo");
+		new iPrimO = FindSendPropInfo("CTerrorGun","m_iExtraPrimaryAmmo");
 		//PrintToChatAll("\x03[SM] [DEBUG] Ammo Counts, offset \x01%i",iAmmoO);
 		//for (new i=0; i<=31; i++)
 		//{
@@ -13768,7 +13768,7 @@ public Action:Debug_OnSay(iCid, args)
 
 	if (StrEqual(st_chat,"debug ammo",false)==true)
 	{
-		new iAmmoO=FindDataMapOffs(iCid,"m_iAmmo");
+		new iAmmoO=FindDataMapInfo(iCid,"m_iAmmo");
 		PrintToChatAll("\x03[SM] [DEBUG] Ammo Counts, offset \x01%i",iAmmoO);
 		for (new i=0; i<=47; i++)
 			PrintToChatAll("\x03%i: iCid\x01 %i\x03",i,GetEntData(iCid,iAmmoO+i));
@@ -13780,15 +13780,15 @@ public Action:Debug_OnSay(iCid, args)
 		new iEntid = GetEntDataEnt2(iCid,g_iActiveWO);
 		decl iOffs;
 			
-		iOffs=FindSendPropOffs("CBaseShotgun","m_reloadStartDuration");
+		iOffs=FindSendPropInfo("CBaseShotgun","m_reloadStartDuration");
 		PrintToChat(iCid,"\x03- start, offset \x01%i",iOffs);
 		PrintToChat(iCid,"\x03-- value at offset \x01%f", GetEntDataFloat(iEntid,iOffs) );
 
-		iOffs=FindSendPropOffs("CBaseShotgun","m_reloadInsertDuration");
+		iOffs=FindSendPropInfo("CBaseShotgun","m_reloadInsertDuration");
 		PrintToChat(iCid,"\x03- insert, offset \x01%i",iOffs);
 		PrintToChat(iCid,"\x03-- value at offset \x01%f", GetEntDataFloat(iEntid,iOffs) );
 
-		iOffs=FindSendPropOffs("CBaseShotgun","m_reloadEndDuration");
+		iOffs=FindSendPropInfo("CBaseShotgun","m_reloadEndDuration");
 		PrintToChat(iCid,"\x03- end, offset \x01%i",iOffs);
 		PrintToChat(iCid,"\x03-- value at offset \x01%f", GetEntDataFloat(iEntid,iOffs) );
 
@@ -13804,7 +13804,7 @@ public Action:Debug_OnSay(iCid, args)
 	
 	if (StrEqual(st_chat,"debug nextact",false)==true)
 	{
-		g_iNextActO			=	FindSendPropOffs("CBaseAbility","m_nextActivationTimer");
+		g_iNextActO			=	FindSendPropInfo("CBaseAbility","m_nextActivationTimer");
 		PrintToChat(iCid,"\x03[SM] [DEBUG] g_iNextActO = \x01%i\x03", g_iNextActO);
 
 		return Plugin_Continue;
@@ -13817,22 +13817,22 @@ public Action:Debug_AnimTimer (Handle:timer, any:iCid)
 {
 	new iGun = GetEntDataEnt2(iCid,g_iActiveWO);
 
-	new iAnimTimeO = FindSendPropOffs("CTerrorGun","m_flAnimTime");
+	new iAnimTimeO = FindSendPropInfo("CTerrorGun","m_flAnimTime");
 	PrintToChat(iCid,"\x03 m_flAnimTime \x01%i",iAnimTimeO);
 	PrintToChat(iCid,"\x03 - value \x01%f", GetEntDataFloat(iGun,iAnimTimeO));
 
-	new iSimTimeO = FindSendPropOffs("CTerrorGun","m_flSimulationTime");
+	new iSimTimeO = FindSendPropInfo("CTerrorGun","m_flSimulationTime");
 	PrintToChat(iCid,"\x03 m_flSimulationTime \x01%i",iSimTimeO);
 	PrintToChat(iCid,"\x03 - value \x01%f", GetEntDataFloat(iGun,iSimTimeO));
 
-	new iSequenceO = FindSendPropOffs("CTerrorGun","m_nSequence");
+	new iSequenceO = FindSendPropInfo("CTerrorGun","m_nSequence");
 	PrintToChat(iCid,"\x03 m_nSequence \x01%i",iSequenceO);
 	PrintToChat(iCid,"\x03 - value \x01%i", GetEntData(iGun,iSequenceO));
 }
 
 public Action:Debug_StaminaTimer (Handle:timer, any:iCid)
 {
-	new iStaminaO = FindSendPropOffs("CTerrorPlayer","m_flStamina");
+	new iStaminaO = FindSendPropInfo("CTerrorPlayer","m_flStamina");
 	PrintToChat(iCid,"\x03 m_flStamina \x01%i",iStaminaO);
 	PrintToChat(iCid,"\x03 - value \x01%f", GetEntDataFloat(iCid,iStaminaO));
 }*/
