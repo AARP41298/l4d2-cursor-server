@@ -48,3 +48,5 @@ server/addons-drop/addons/sourcemod/configs/geoip/*.mmdb
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+server/addons-drop/addons/sourcemod/plugins/source/scripting/*
