@@ -8,7 +8,7 @@
 		"da"	"Velkommen til Perkmod"
 		"ru"	"Добро пожаловать в Перк-Мод: "
 		"fr"	"Bienvenue a Perkmod!"
-		"es"	"Bienvenido a Xtreme-Infection"
+		"es"	"Perkmod2 activo!"
 	}
 
 	"WelcomeMessageChat"
@@ -129,7 +129,7 @@
 		"da"	"gav ekstra midlertidigt helbred til"
 		"ru"	"дал бонусное временное здоровье"
 		"fr"	"vous avez donne plus de sante temporaire a"
-		"es"	"dio salud extra temporal a"
+		"es"	"dio salud temporal a"
 	}
 
 	"HelpingHandReceiverHint"
@@ -140,7 +140,7 @@
 		"da"	"gav dig ekstra midlertidigt helbred!"
 		"ru"	"дал вам бонусное временное здоровье"
 		"fr"	"a vous donne plus de sante temporaire!"
-		"es"	"te dio salud extra temporal!"
+		"es"	"te dio salud temporal!"
 	}
 
 	"BarfBaggedMobHint"
@@ -228,7 +228,7 @@
 		"da"	"Skyd hurtigere"
 		"ru"	"Стрелять быстрее"
 		"fr"	"tirer plus vite"
-		"es"	"disparas mas rapido"
+		"es"	"Disparas más rapido"
 	}
 
 	"SleighOfHandDescriptionPanel"
@@ -239,7 +239,7 @@
 		"da"	"genlad hurtigere"
 		"ru"	"Перезаряжать быстрее"
 		"fr"	"recharger plus vite"
-		"es"	"recargas mas rapido"
+		"es"	"Recargas más rapido"
 	}
 
 	"NotSet"
@@ -260,7 +260,7 @@
 		"da"	"ekstra midlertidigt helbred ved brug af piller"
 		"ru"	"Бонусное хп от использования таблеток"
 		"fr"	"plus de sante temporaire avec des pilules"
-		"es"	"salud temporal extra usando pildoras/adrenalina"
+		"es"	"salud temporal extra usando pildoras"
 	}
 
 	"HelpingHandDescriptionPanel"
@@ -282,7 +282,7 @@
 		"da"	"bжr pе mere ammo"
 		"ru"	"Нести больше боезапаса"
 		"fr"	"porter plus de ammunition"
-		"es"	"llevas mas municion"
+		"es"	"Llevas más municion"
 	}
 
 	"MartialArtistDescriptionPanelCoop"
@@ -293,7 +293,7 @@
 		"da"	"lшb hurtigere"
 		"ru"	"Более быстрый бег"
 		"fr"	"courir plus vite"
-		"es"	"corres mas rapido"
+		"es"	"Corres más rapido"
 	}
 
 	"HardToKillDescriptionPanel"
@@ -304,7 +304,7 @@
 		"da"	"mere helbred ved incap"
 		"ru"	"Больше хп когда вы лежите"
 		"fr"	"plus de sante quand on tombe"
-		"es"	"mas salud cuando te incapacitan"
+		"es"	"más salud cuando te incapacitan"
 	}
 
 	"BarfBaggedDescriptionPanel"
@@ -546,7 +546,7 @@
 		"da"	"SKAL du trykke 'FЖRDIG'"
 		"ru"	"вы ДОЛЖНЫ нажать 'ГОТОВО'"
 		"fr"	"on doit selectionner 'FINI'"
-		"es"	"DEBES darle a 'COMPLETO'" 
+		"es"	"Usa 'FINALIZAR'" 
 	}
 
 	"DoneNagPanel3"
@@ -557,7 +557,7 @@
 		"da"	"FЖRDIG"
 		"ru"	"ГОТОВО"
 		"fr"	"FINI"
-		"es"	"COMPLETO"
+		"es"	"FINALIZAR"
 	}
 
 	"ConfirmNagPanel1"
@@ -634,7 +634,7 @@
 		"da"	"du trykker bekrжft"
 		"ru"	"пока вы не нажмете 'ПОДТВЕРДИТЬ'!"
 		"fr"	"de confirmer!"
-		"es"	"que des confirmar"
+		"es"	"que des FINALIZAR"
 	}
 
 	"ConfirmNagPanel8"
@@ -700,7 +700,7 @@
 		"da"	"At samle en granat op vil give dig to"
 		"ru"	"Подбирание гранаты дает вам сразу две"
 		"fr"	"Prenant une grenade vous donne deux"
-		"es"	"Levantando una granada te da 2"
+		"es"	"Recoger una granada te da 2"
 	}
 
 	"PyroDescriptionText2"
@@ -711,7 +711,7 @@
 		"da"	"og du starter runden med to granater"
 		"ru"	"и вы начинаете раунд с двумя гранатами."
 		"fr"	"et vous commencez la ronde avec deux grenades"
-		"es"	"y arrancar la ronda con 2 granadas"
+		"es"	"e inicias la ronda con 2 granadas"
 	}
 
 	"SpiritDescriptionText"
@@ -722,7 +722,7 @@
 		"da"	"Nеr en holdkammerat gеr ned vil du selv-genoplive"
 		"ru"	"Если напарник падает вы можете встать, если вы сами лежите."
 		"fr"	"Quand un ami tombe vous vous relancerez"
-		"es"	"Cuando un compañero cae te puedes auto-leventar con el"
+		"es"	"Cuando un compañero cae, tu te auto-levantas"
 	}
 
 	"SpritDescriptionText2"
@@ -744,7 +744,7 @@
 		"da" 	"Du opnеr ekstra helbred ved at tage piller"
 		"ru"	"Вы получаете бонусное хп, используя таблетки,"
 		"fr"	"Vous recevez plus sante temporaire avec des pilules"
-		"es"	"Ganas salud extra temporal cuando usas pildoras/adrenalina"
+		"es"	"Ganas salud extra cuando usas pildoras"
 	}
 
 	"ChemReliantDescriptionText2"
@@ -755,7 +755,7 @@
 		"da"	"og du starter runden med ekstra piller"
 		"ru"	"и вы начинаете раунд с таблетками."
 		"fr"	"et vous commencez la ronde avec des pilules"
-		"es"	"y arrancas la ronda con pildoras o adrenalina"
+		"es"	"e inicias la ronda con pildoras"
 	}
 
 	"HardToKillDescriptionText"
@@ -777,7 +777,7 @@
 		"da"	"mere helbred"
 		"ru"	"больше здоровья"
 		"fr"	"plus sante"
-		"es"	"mas salud"
+		"es"	"más salud"
 	}
 
 	"SqueezerDescriptionText"
@@ -844,7 +844,7 @@
 		"ru"	"Быстрые рукопашных атаки"
 		"de"	""
 		"da"	""
-		"es"	"Puedes golpear 3 veces rapidamente con armas de mano"
+		"es"	"Triple golpe con armas cuerpo a cuerpo"
 	}
 
 	"MartialArtistDescriptionPanel2"
@@ -866,7 +866,7 @@
 		"fr"	"donner l'aide plus vite et plus de sante temporaire"
 		"de"	""
 		"da"	""
-		"es"	"levantas a otros mas rapido, y da recarga de salud extra"
+		"es"	"Levantas a otros más rapido, y te da salud extra"
 	}
 
 	"AcidVomitDescriptionPanel"
@@ -1085,7 +1085,7 @@
 		"da"	""
 		"fr"	""
 		"it"	"recois un batte de baseball"
-		"es"	"apareces con un bat de baseball"
+		"es"	"Inicias con un bat de baseball"
 	}
 	"MegaAdhesiveDescriptionPanel"
 	{
@@ -1118,7 +1118,7 @@
 		"de"	"SEMI AUTO ONLY"
 		"da"	"SEMI AUTO ONLY"
 		"fr"	"SEMI AUTO ONLY"
-		"es"	"SOLO SEMI AUTO"
+		"es"	"SOLO ARMAS SEMI AUTO"
 	}
 	
 	"MartialArtistDescriptionPanel_noreduc"
@@ -1139,7 +1139,7 @@
 		"de"	"Warning: You are now in BLACK AND WHITE health!!!"
 		"da"	"Warning: You are now in BLACK AND WHITE health!!!"
 		"fr"	"Warning: You are now in BLACK AND WHITE health!!!"
-		"es"	"Cuidado: Ahora estas con salud BLANCO Y NEGRA!!!"
+		"es"	"Cuidado: Ya andas más pa'lla que aca!!!"
 	}
 
 	"PerkCurrentMarker"
@@ -1150,38 +1150,38 @@
 
 	"MenuTitle_Main"
 	{
-		"en"	"Xtreme-Infection Perkmod: Main Menu"
-		"es"	"Xtreme-Infection Perkmod: Menu Principal"
+		"en"	"Perkmod: Main Menu"
+		"es"	"Perkmod: Menu Principal"
 	}
 
 	"MenuTitle_ActivePerks"
 	{
-		"en"	"Xtreme-Infection Perkmod: Active Perks"
-		"es"	"Xtreme-Infection Perkmod: Perks Activos"
+		"en"	"Perkmod: Active Perks"
+		"es"	"Perkmod: Perks Activos"
 	}
 
 	"MenuTitle_Sur1"
 	{
-		"en"	"Xtreme-Infection Perkmod - Survivor: First"
-		"es"	"Xtreme-Infection Perkmod - Superviviente: Primero"
+		"en"	"Perkmod - Survivor: First"
+		"es"	"Perkmod - Superviviente: Primero"
 	}
 
 	"MenuTitle_Sur2"
 	{
-		"en"	"Xtreme-Infection Perkmod - Survivor: Second"
-		"es"	"Xtreme-Infection Perkmod - Superviviente: Segundo"
+		"en"	"Perkmod - Survivor: Second"
+		"es"	"Perkmod - Superviviente: Segundo"
 	}
 
 	"MenuTitle_Sur3"
 	{
-		"en"	"Xtreme-Infection Perkmod - Survivor: Third"
-		"es"	"Xtreme-Infection Perkmod - Superviviente: Tercero"
+		"en"	"Perkmod - Survivor: Third"
+		"es"	"Perkmod - Superviviente: Tercero"
 	}
 
 	"MenuTitle_Infected"
 	{
-		"en"	"Xtreme-Infection Perkmod - %s"
-		"es"	"Xtreme-Infection Perkmod - %s"
+		"en"	"Perkmod - %s"
+		"es"	"Perkmod - %s"
 	}
 
 	"MenuSlot_Sur1"
@@ -1295,13 +1295,13 @@
 	"PerkName_SleightOfHand"
 	{
 		"en"	"Sleight of Hand"
-		"es"	"Manos agiles"
+		"es"	"Mano de chaquetero"
 	}
 
 	"PerkName_Pyrotechnician"
 	{
 		"en"	"Pyrotechnician"
-		"es"	"Pirotecnico"
+		"es"	"Piromaniaco"
 	}
 
 	"PerkName_Unbreakable"
@@ -1331,19 +1331,19 @@
 	"PerkName_PackRat"
 	{
 		"en"	"Pack Rat"
-		"es"	"Acumulador"
+		"es"	"Acaparador"
 	}
 
 	"PerkName_ChemReliant"
 	{
 		"en"	"Chem Reliant"
-		"es"	"Dependiente quimico"
+		"es"	"Piedroso"
 	}
 
 	"PerkName_HardToKill"
 	{
 		"en"	"Hard to Kill"
-		"es"	"Dificil de matar"
+		"es"	"Duro de matar"
 	}
 
 	"PerkName_ExtremeConditioning"
@@ -1397,7 +1397,7 @@
 	"PerkName_DragAndDrop"
 	{
 		"en"	"Drag and Drop"
-		"es"	"Arrastre libre"
+		"es"	"Arrastrar y soltar"
 	}
 
 	"PerkName_SmokeIt"
@@ -1421,7 +1421,7 @@
 	"PerkName_Grasshopper"
 	{
 		"en"	"Grasshopper"
-		"es"	"Saltamontes"
+		"es"	"Chapulin"
 	}
 
 	"PerkName_SpeedDemon"
@@ -1469,7 +1469,7 @@
 	"PerkName_ScatteringRam"
 	{
 		"en"	"Scattering Ram"
-		"es"	"Embiste disperso"
+		"es"	"Embestida"
 	}
 
 	"PerkName_SpeedingBullet"
