@@ -35,7 +35,10 @@ export default function ProblemasPage() {
               extrajo en <code>left4dead2/addons</code> o metiste el .dll en
               Linux. Confirma{" "}
               <code>-maxplayers 8</code> en el comando, no{" "}
-              <code>+maxplayers</code>.
+              <code>+maxplayers</code>. El mensaje{" "}
+              <code>Human player limit reached (4/4)</code> es lo mismo: el
+              motor sigue en 4, o falta <code>l4d_unreservelobby</code> y el
+              lobby sigue reserved.
             </p>
           </AccordionContent>
         </AccordionItem>
@@ -46,11 +49,12 @@ export default function ProblemasPage() {
           <AccordionContent>
             <p>
               L4DToolZ abrió el hueco; nadie creó el quinto superviviente. Falta
-              ABM (o SuperVersus). El .smx va en{" "}
-              <code>addons/sourcemod/plugins</code> y el gamedata{" "}
-              <code>abm.txt</code> en{" "}
-              <code>addons/sourcemod/gamedata</code>. Reinicia, no basta un
-              sm plugins reload la primera vez.
+              l4dmultislots (o no compiló). En consola:{" "}
+              <code>sm plugins list</code> tiene que mostrar{" "}
+              <code>l4dmultislots</code> y{" "}
+              <code>l4d_unreservelobby</code>. Si el 5º entra por IP y Valve
+              dice 4/4, falta <code>l4d_unreservelobby</code>. Reinicia; no
+              basta un sm plugins reload la primera vez.
             </p>
           </AccordionContent>
         </AccordionItem>
@@ -69,9 +73,10 @@ export default function ProblemasPage() {
           <AccordionContent>
             <p>
               Modelos L4D1 (Bill, Francis, Louis, Zoey) en The Passing siguen
-              rotos. ABM + identity fix ayudan y no curan del todo. Evita
-              Passing con 8+ o usa un identity fix actualizado. Si pega SIGALRM
-              en Docker, el entrypoint ya pasa <code>-nowatchdog</code>.
+              rotos. Identity Fix + l4d2_fix_character_mixed ayudan y no
+              curan del todo. Evita Passing con 8+ o usa un identity fix
+              actualizado. Si pega SIGALRM en Docker, el entrypoint ya pasa{" "}
+              <code>-nowatchdog</code>.
             </p>
           </AccordionContent>
         </AccordionItem>
@@ -89,8 +94,9 @@ export default function ProblemasPage() {
           <AccordionTrigger>Solo 4 kits / 4 pistolas</AccordionTrigger>
           <AccordionContent>
             <p>
-              El mapa spawnea loot para cuatro. ABM puede dar arma primaria al
-              extra; para kits y ammo packs extra conviene{" "}
+              El mapa spawnea loot para cuatro. l4dmultislots puede dar kits
+              extra con <code>l4d_multislots_saferoom_extra_first_aid</code>.
+              Para ammo packs extra conviene{" "}
               <code>l4d2_extraplayeritems</code> de Jackz más Left 4 DHooks.
               No es obligatorio para que entren: es para que no se peleen el
               único defibrilador.

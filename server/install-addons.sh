@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Instala MetaMod, SourceMod y L4DToolZ dentro del dedicated.
-# Idempotente: si MetaMod ya está, no pisa plugins del usuario salvo FORCE_ADDON_INSTALL=1.
+# Instala MetaMod, SourceMod, L4DToolZ y la pila 8+ coop (install-8plus.sh).
+# Idempotente: si MetaMod ya está, no pisa MM/SM/L4DToolZ salvo FORCE_ADDON_INSTALL=1.
+# FORCE_MULTISLOTS_UPDATE=1 o FORCE_8PLUS_UPDATE=1 recompila la pila 8+.
 # Los tar se guardan en $GAME_DIR/.addon-cache (volumen) para no re-descargar.
 set -euo pipefail
 
 GAME_DIR="${1:-/home/steam/l4d2}"
 L4D2="$GAME_DIR/left4dead2"
+SM="$L4D2/addons/sourcemod"
 FORCE="${FORCE_ADDON_INSTALL:-0}"
 CACHE_DIR="${ADDON_CACHE_DIR:-$GAME_DIR/.addon-cache}"
 
@@ -112,33 +114,36 @@ download_addon() {
   return 1
 }
 
-mkdir -p "$L4D2"
-if [[ -f "$L4D2/addons/metamod.vdf" && "$FORCE" != "1" ]]; then
-  echo ">>> Addons ya presentes (FORCE_ADDON_INSTALL=1 para reinstalar MM/SM/L4DToolZ)"
-  exit 0
-fi
+install_mm_sm_l4dtoolz() {
+  mkdir -p "$L4D2"
+  if [[ -f "$L4D2/addons/metamod.vdf" && "$FORCE" != "1" ]]; then
+    echo ">>> Addons ya presentes (FORCE_ADDON_INSTALL=1 para reinstalar MM/SM/L4DToolZ)"
+    return 0
+  fi
 
-echo ">>> MetaMod:Source"
-MMS_TAR="$(download_addon "$MMS_URL" "$MMS_LATEST_PTR" "mmsource-")"
-tar -xzf "$MMS_TAR" -C "$L4D2"
+  echo ">>> MetaMod:Source"
+  MMS_TAR="$(download_addon "$MMS_URL" "$MMS_LATEST_PTR" "mmsource-")"
+  tar -xzf "$MMS_TAR" -C "$L4D2"
 
-echo ">>> SourceMod"
-SM_TAR="$(download_addon "$SM_URL" "$SM_LATEST_PTR" "sourcemod-")"
-tar -xzf "$SM_TAR" -C "$L4D2"
+  echo ">>> SourceMod"
+  SM_TAR="$(download_addon "$SM_URL" "$SM_LATEST_PTR" "sourcemod-")"
+  tar -xzf "$SM_TAR" -C "$L4D2"
 
-echo ">>> L4DToolZ 2.2.0 (accelerator74)"
-L4DTOOLZ_TAR="$(download_addon "$L4DTOOLZ_URL" "" "l4dtoolz-")"
-# El tar trae addons/l4dtoolz y addons/metamod/l4dtoolz.vdf
-tar -xzf "$L4DTOOLZ_TAR" -C "$L4D2"
+  echo ">>> L4DToolZ 2.2.0 (accelerator74)"
+  L4DTOOLZ_TAR="$(download_addon "$L4DTOOLZ_URL" "" "l4dtoolz-")"
+  tar -xzf "$L4DTOOLZ_TAR" -C "$L4D2"
 
-ADMINS="$L4D2/addons/sourcemod/configs/admins_simple.ini"
-if [[ -f "$ADMINS" ]] && ! grep -q "STEAM_1:0:0000" "$ADMINS"; then
-  {
-    echo ""
-    echo "// Pon tu SteamID2 aquí, por ejemplo:"
-    echo '// "STEAM_1:0:12345678" "99:z"'
-  } >> "$ADMINS"
-fi
+  ADMINS="$SM/configs/admins_simple.ini"
+  if [[ -f "$ADMINS" ]] && ! grep -q "STEAM_1:0:0000" "$ADMINS"; then
+    {
+      echo ""
+      echo "// Pon tu SteamID2 aquí, por ejemplo:"
+      echo '// "STEAM_1:0:12345678" "99:z"'
+    } >> "$ADMINS"
+  fi
 
-echo ">>> MetaMod + SourceMod + L4DToolZ listos"
-echo ">>> Falta ABM: deja abm.smx y abm.txt en server/addons-drop (ver README)"
+  echo ">>> MetaMod + SourceMod + L4DToolZ listos"
+}
+
+install_mm_sm_l4dtoolz
+/home/steam/install-8plus.sh "$GAME_DIR"

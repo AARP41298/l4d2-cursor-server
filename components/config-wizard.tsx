@@ -30,7 +30,7 @@ import {
   MAPS,
   REGIONS,
   clampPlayers,
-  generateAbmCfg,
+  generateMultislotsCfg,
   generateComposeSnippet,
   generateConnectSnippet,
   generateEnv,
@@ -50,7 +50,10 @@ export function ConfigWizard() {
 
   const envFile = useMemo(() => generateEnv(settings), [settings]);
   const serverCfg = useMemo(() => generateServerCfg(settings), [settings]);
-  const abmCfg = useMemo(() => generateAbmCfg(settings), [settings]);
+  const multislotsCfg = useMemo(
+    () => generateMultislotsCfg(settings),
+    [settings],
+  );
   const compose = useMemo(
     () => generateComposeSnippet(settings),
     [settings],
@@ -291,9 +294,11 @@ export function ConfigWizard() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => downloadText("abm.cfg", abmCfg)}
+            onClick={() =>
+              downloadText("l4dmultislots.cfg", multislotsCfg)
+            }
           >
-            abm.cfg
+            l4dmultislots.cfg
           </Button>
         </div>
 

@@ -21,6 +21,8 @@ services:
       SRCDS_PW: ${SRCDS_PW:-}
       SRCDS_STEAMGROUP: ${SRCDS_STEAMGROUP:-0}
       FORCE_ADDON_INSTALL: ${FORCE_ADDON_INSTALL:-0}
+      FORCE_MULTISLOTS_UPDATE: ${FORCE_MULTISLOTS_UPDATE:-0}
+      FORCE_8PLUS_UPDATE: ${FORCE_8PLUS_UPDATE:-0}
       STEAM_USER: ${STEAM_USER:-anonymous}
       STEAM_PASS: ${STEAM_PASS:-}
       STEAM_GUARD: ${STEAM_GUARD:-}
@@ -29,6 +31,12 @@ services:
     volumes:
       - l4d2-game:/home/steam/l4d2
       - ./server/addons-drop:/home/steam/addons-drop:ro
+      - ../L4D1_2-Plugins:/home/steam/plugins-src:ro
+    # SteamCMD es 32-bit y no habla con el DNS interno de Docker (127.0.0.11).
+    # Sin esto: "Steamcmd needs to be online" / "Couldn't resolve host name".
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     stop_grace_period: 20s
 
 volumes:

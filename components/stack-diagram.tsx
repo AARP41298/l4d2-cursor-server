@@ -18,8 +18,8 @@ const LAYERS = [
   },
   {
     icon: Layers,
-    title: "ABM (o SuperVersus)",
-    body: "Spawnea supervivientes extra, les asigna modelo y escala infectados. Si no está, los huecos extra entran como espectadores.",
+    title: "8+ Survivors In Coop",
+    body: "l4dmultislots crea el 5º+ superviviente, l4d_unreservelobby deja entrar por IP, y los fixes 5+ evitan identity/AFK/charger/witch rotos. ABM y SuperVersus chocan: no los instales.",
   },
 ];
 

@@ -25,7 +25,7 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "L4D2 8+ | Servidor dedicado para más de 4 jugadores",
   description:
-    "La forma estable de jugar Left 4 Dead 2 con 5 a 18 personas: Linux dedicated, L4DToolZ y ABM. Kit Docker y configs listas.",
+    "La forma estable de jugar Left 4 Dead 2 con 5 a 18 personas: Linux dedicated, L4DToolZ y la pila 8+ Survivors In Coop. Kit Docker y configs listas.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

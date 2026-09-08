@@ -1,0 +1,5 @@
+# Linux shebangs break if Git checks these out as CRLF on Windows
+# (`/usr/bin/env: 'bash\r': No such file or directory`).
+*.sh text eol=lf
+*.py text eol=lf
+Dockerfile text eol=lf

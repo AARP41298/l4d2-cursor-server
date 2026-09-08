@@ -41,12 +41,12 @@ export const GAMEMODES = [
   {
     id: "versus",
     label: "Versus",
-    hint: "Necesita SuperVersus además de ABM si pasas de 4v4.",
+    hint: "l4dmultislots cubre supervivientes extra (!join). Para más infectados usa l4dinfectedbots, no SuperVersus.",
   },
   {
     id: "survival",
     label: "Supervivencia",
-    hint: "ABM escala hordas; 8 jugadores aguantan más de lo que el director espera.",
+    hint: "8 jugadores aguantan más de lo que el director espera; el tutorial 8+ no escala hordas solo.",
   },
 ] as const;
 
@@ -116,6 +116,7 @@ SRCDS_LAN=${s.publicServer ? "0" : "0"}
 # Mapas Workshop (colección del gist). Vacío = no baja mapas.
 WORKSHOP_IDS=2233971331
 FORCE_WORKSHOP_UPDATE=0
+FORCE_8PLUS_UPDATE=0
 `;
 }
 
@@ -160,7 +161,10 @@ sv_maxcmdrate 30
 motd_enabled 1
 sv_hibernate_when_empty 0
 
-sm_cvar survivor_limit ${Math.min(s.maxPlayers, 24)}
+sm_cvar precache_all_survivors 1
+sm_cvar sv_consistency 0
+sm_cvar director_transition_timeout 50
+sm_cvar director_unfreeze_time 40
 sm_cvar z_max_player_zombies ${s.gamemode === "versus" ? Math.min(s.maxPlayers, 18) : 4}
 sm_cvar l4d_perkmod_forcerandomperks 1
 
@@ -171,16 +175,11 @@ writeip
 `;
 }
 
-export function generateAbmCfg(s: ServerSettings): string {
-  const extra = Math.max(0, s.maxPlayers - 4);
-  return `// cfg/sourcemod/abm.cfg — se crea al cargar ABM; deja estos valores
-abm_minplayers "${s.maxPlayers}"
-abm_maxplayers "${s.maxPlayers}"
-abm_autohard "${extra >= 4 ? 1 : 0}"
-abm_identityfix "1"
-abm_joinmenu "0"
-abm_offertakeover "1"
-abm_lockslots "0"
+export function generateMultislotsCfg(s: ServerSettings): string {
+  return `// cfg/sourcemod/l4dmultislots.cfg — tutorial 8+ Survivors In Coop
+l4d_multislots_max_survivors "${s.maxPlayers}"
+l4d_multislots_min_survivors "${s.maxPlayers}"
+l4d_multislots_spawn_survivors_roundstart "1"
 `;
 }
 
@@ -217,9 +216,11 @@ export function generateComposeSnippet(s: ServerSettings): string {
       SRCDS_PW: ${quote(s.svPassword)}
       SRCDS_STEAMGROUP: "${s.steamGroup}"
       WORKSHOP_IDS: "2233971331"
+      FORCE_8PLUS_UPDATE: "0"
     volumes:
       - l4d2-game:/home/steam/l4d2
       - ./server/addons-drop:/home/steam/addons-drop:ro
+      - ../L4D1_2-Plugins:/home/steam/plugins-src:ro
 
 volumes:
   l4d2-game:

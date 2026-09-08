@@ -4,7 +4,7 @@ Left 4 Dead 2 deja campaña en **4** y Versus en **8**. Subir `sv_maxplayers` no
 
 1. **MetaMod + SourceMod** — cargan plugins.
 2. **L4DToolZ** (fork de [accelerator74](https://github.com/accelerator74/l4dtoolz), 2.2.0) — abre el cupo del motor. El zip viejo de AlliedModders ya no carga.
-3. **ABM** — spawnea supervivientes extra y escala infectados. Sin esto, el 5º entra de espectador.
+3. **[8+ Survivors In Coop](https://github.com/fbef0102/Game-Private_Plugin/tree/main/Tutorial_教學區/English/Game/L4D2/8+_Survivors_In_Coop)** (Harry) — Stripper, Left 4 DHooks, Actions, **l4dmultislots**, **l4d_unreservelobby** y los fixes 5+. Sin esto el 5º entra de espectador o Valve lo corta en 4/4. No uses ABM ni SuperVersus: chocan con l4dmultislots.
 
 Este repo trae Docker para el dedicated, configs listas y un asistente web que genera `.env` / `server.cfg`.
 
@@ -25,28 +25,51 @@ cp .env.example .env
 docker compose up --build
 ```
 
-La primera vez SteamCMD instala el dedicated (app 222860) y el entrypoint mete MetaMod, SourceMod y L4DToolZ. Los ficheros del juego quedan en el volumen `l4d2-game`.
+La primera vez SteamCMD instala el dedicated (app 222860) y el entrypoint mete MetaMod, SourceMod, L4DToolZ y la pila **8+ Survivors In Coop**. Los ficheros del juego quedan en el volumen `l4d2-game`.
 
-### ABM (obligatorio para el 5º personaje)
+Si SteamCMD dice `needs to be online` / `Couldn't resolve host name`: el binario 32-bit no usa el DNS interno de Docker. Compose ya pone `8.8.8.8` y `1.1.1.1`. Apaga VPN, vuelve a `docker compose up --build`.
 
-AlliedModders bloquea descargas automáticas. A mano:
+### 8+ coop (tutorial de Harry)
 
-1. Hilo: <https://forums.alliedmods.net/showthread.php?t=291562>
-2. Baja **abm.smx** (adjunto compilado, no pulses «Get Plugin») y **abm.txt**
-3. Colócalos así:
+La guía es [8+ Survivors In Coop](https://github.com/fbef0102/Game-Private_Plugin/tree/main/Tutorial_教學區/English/Game/L4D2/8+_Survivors_In_Coop). El contenedor instala la sección **Require** (y Prepare: Stripper, Left 4 DHooks, Actions):
+
+- **L4DToolZ** — cupo del motor
+- **l4d_unreservelobby** — sin esto el 5º no entra por `connect` cuando el lobby está “lleno”
+- **l4dmultislots** + **l4d_CreateSurvivorBot** — bots extra; `!join` / `!js`
+- Fixes 5+: identity, AFK, deadbot, defib, charger collision, witch target, upgrade packs, changelevel, vocalize, rescue vehicle, tank de mapa, etc.
+
+Compose monta `../L4D1_2-Plugins` y compila desde ahí. Si no está ese repo, se baja el source de GitHub. **8 Slots Lobby** es un addon de Workshop **en el cliente** ([2754956355](https://steamcommunity.com/sharedfiles/filedetails/?id=2754956355)), no en el dedicated.
+
+No toques `survivor_limit`. No instales ABM / SuperVersus / bebop. El arranque los mueve a `plugins/disabled`.
+
+Cvars del tutorial en `server.cfg`: `precache_all_survivors 1`, `sv_consistency 0`. En `cfg/sourcemod/l4dmultislots.cfg` el entrypoint pone:
 
 ```text
-server/addons-drop/addons/sourcemod/plugins/abm.smx
-server/addons-drop/addons/sourcemod/gamedata/abm.txt
+l4d_multislots_max_survivors "8"
+l4d_multislots_min_survivors "8"
+l4d_multislots_spawn_survivors_roundstart "1"
 ```
 
-4. Reinicia el contenedor. El entrypoint copia `addons-drop` encima del dedicated en cada arranque.
+(el `8` es `SRCDS_MAXPLAYERS`). Para recompilar la pila: `FORCE_8PLUS_UPDATE=1`.
 
-En la consola del servidor tiene que salir L4DToolZ *Running* y ABM en `sm plugins list`. `status` debe mostrar el servidor **unreserved**.
+En consola comprueba el stack:
+
+```text
+status
+meta list
+sm exts list
+sm plugins list
+```
+
+L4DToolZ *Running*, `l4dmultislots` y `l4d_unreservelobby` en `sm plugins list`. `status` **unreserved**. El 8º lobby de Valve sigue sin existir: hasta 8 puedes forzar dedicated; desde el 9º, `connect`.
+
+**Actions** (Prepare del tutorial) hoy **no carga** en SourceMod 1.12: `sm exts list` muestra `actions.ext.2.l4d2.so` FAILED (`Extension version is too new to load (9, max is 8)`). Por eso `l4d_fix_target_replace` falla en `sm plugins list`. El zip de [Vinillia](https://github.com/Vinillia/actions.ext/releases) está compilado contra API 9 (SM 1.13); 1.12 solo admite 8. Lo dejamos así hasta que el autor publique un build para 1.12 — ver [issue #30](https://github.com/Vinillia/actions.ext/issues/30#issuecomment-5457903002). El resto de la pila 8+ sí corre.
+
+No se instala **Character_manager** (choca con Identity Fix). De la lista Require, **InputKill Kick Prevention** (Shadowysn) solo está en AlliedModders y Cloudflare bloquea la bajada automática; si un mapa te saca con `Kicked by Console : CBaseEntity::InputKill()`, déjalo en `addons-drop`. **Transition Restore Fix** sí se baja de [umlka/l4d2](https://github.com/umlka/l4d2/tree/main/transition_restore_fix). Optional / Fun del tutorial no van.
 
 ## Consola del dedicated
 
-`status`, `meta list` y `sm plugins list` son comandos de **srcds**, no de Linux. La pestaña de logs y Docker Desktop → Exec no sirven (Exec abre un `/bin/sh`).
+`status`, `meta list`, `sm exts list` y `sm plugins list` son comandos de **srcds**, no de Linux. La pestaña de logs y Docker Desktop → Exec no sirven (Exec abre un `/bin/sh`).
 
 En la máquina **donde corre el contenedor**:
 
@@ -64,6 +87,7 @@ Desde el **juego** (cualquier PC de la red o Internet), con el puerto TCP **2701
 rcon_password TU_SRCDS_RCONPW
 rcon status
 rcon meta list
+rcon sm exts list
 rcon sm plugins list
 ```
 
@@ -160,9 +184,9 @@ Abre [http://127.0.0.1:43217](http://127.0.0.1:43217). Ahí está el porqué del
 | 9–12 | 4 GB | Solo `connect`. El director se siente inflado. |
 | 13–18 | 4–8 GB | Límite práctico de L4DToolZ. Mapas estrechos van mal. |
 
-Versus por encima de 4v4 pide SuperVersus además de (o en lugar de) ABM.
+Versus por encima de 4v4: l4dmultislots cubre el lado superviviente (`!join`). Para más infectados / 10v10 usa [l4dinfectedbots](https://github.com/fbef0102/L4D1_2-Plugins/tree/master/l4dinfectedbots). No instales SuperVersus.
 
-Opcional con 8+: [Left 4 DHooks](https://forums.alliedmods.net/showthread.php?t=321696) y Extra Player Items (kits/ammo para el 5º). No hacen falta para que entren.
+Kits extra para el 5º+ van en los cvars de l4dmultislots (`saferoom_extra_first_aid`, `finale_extra_first_aid`). Opcional: Extra Player Items (ammo) y [l4d_infected_limit_control](https://github.com/fbef0102/Game-Private_Plugin/tree/main/L4D_插件/Common_Infected_%E6%99%AE%E9%80%9A%E6%84%9F%E6%9F%93%E8%80%85/l4d_infected_limit_control) para hordas según el número de jugadores.
 
 ## Plugins del gist
 
@@ -188,4 +212,4 @@ El SteamID2 sale en <https://steamid.io>.
 
 ## Licencia
 
-Kit de configuración. Left 4 Dead 2 es de Valve. MetaMod, SourceMod, L4DToolZ y ABM tienen sus propias licencias. No redistribuimos el juego ni los `.smx` de terceros.
+Kit de configuración. Left 4 Dead 2 es de Valve. MetaMod, SourceMod, L4DToolZ, l4dmultislots y el resto de la pila 8+ tienen sus propias licencias. No redistribuimos el juego ni los `.smx` de terceros.

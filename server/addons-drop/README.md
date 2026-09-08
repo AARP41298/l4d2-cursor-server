@@ -19,10 +19,8 @@ AlliedModders bloquea el adjunto. A mano:
 3. Renómbralo a `plugin.perkmod.txt`
 4. Déjalo en `addons/sourcemod/translations/plugin.perkmod.txt`
 
-## ABM (5º jugador)
+## l4dmultislots / 8+ coop
 
-1. https://forums.alliedmods.net/showthread.php?t=291562
-2. `addons/sourcemod/plugins/abm.smx`
-3. `addons/sourcemod/gamedata/abm.txt`
+Lo instala el entrypoint según el tutorial 8+ Survivors In Coop (Require). No pongas ABM, SuperVersus ni Character_manager aquí.
 
-Opcional 8+: Left 4 DHooks y Extra Player Items.
+Opcional a mano: **InputKill Kick Prevention** (`l4d2_client_inputkill_prevention.smx`) si un mapa te saca con `CBaseEntity::InputKill()` — AlliedModders bloquea la bajada automática.

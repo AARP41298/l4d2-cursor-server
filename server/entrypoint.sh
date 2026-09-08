@@ -56,6 +56,15 @@ seed_l4d2_appmanifest() {
 EOF
 }
 
+if ! curl -fsSL --max-time 15 -o /dev/null https://api.steampowered.com/ISteamWebAPIUtil/GetServerInfo/v1/; then
+  echo "ERROR: el contenedor no llega a Steam (DNS/red)." >&2
+  echo "    SteamCMD es 32-bit y no usa el DNS interno de Docker." >&2
+  echo "    docker-compose ya pone 8.8.8.8 / 1.1.1.1. Si usas VPN, apágala y reintenta." >&2
+  echo "    Prueba en el host: docker compose up --build" >&2
+  sleep 15
+  exit 1
+fi
+
 if [[ -f "$GAME_DIR/srcds_run" && "${FORCE_STEAM_UPDATE:-0}" != "1" ]]; then
   echo ">>> SteamCMD: dedicated ya instalado; se omite validate (FORCE_STEAM_UPDATE=1 para forzar)"
 else
@@ -72,8 +81,23 @@ else
 
   seed_l4d2_appmanifest
 
+  steamcmd_try() {
+    local n=1
+    local max=3
+    while [[ "$n" -le "$max" ]]; do
+      echo ">>> SteamCMD: intento $n/$max"
+      if "$STEAMCMD" "$@"; then
+        return 0
+      fi
+      echo ">>> SteamCMD: falló; espera $((n * 8))s (DNS/Steam CDN)" >&2
+      sleep $((n * 8))
+      n=$((n + 1))
+    done
+    return 1
+  }
+
   steamcmd_ok=0
-  if "$STEAMCMD" \
+  if steamcmd_try \
       +force_install_dir "$GAME_DIR" \
       "${steamcmd_login[@]}" \
       +app_update "$APPID" validate \
@@ -87,20 +111,23 @@ else
     else
       echo ">>> SteamCMD: install Linux anónimo falló; depot Windows y luego Linux"
       seed_l4d2_appmanifest
-      "$STEAMCMD" \
+      steamcmd_try \
         +force_install_dir "$GAME_DIR" \
         "${steamcmd_login[@]}" \
         +@sSteamCmdForcePlatformType windows \
         +app_update "$APPID" \
         +@sSteamCmdForcePlatformType linux \
         +app_update "$APPID" validate \
-        +quit
+        +quit || true
     fi
   fi
 fi
 
 if [[ ! -f "$GAME_DIR/srcds_run" ]]; then
-  echo "ERROR: SteamCMD no dejó srcds_run. Prueba STEAM_USER/STEAM_PASS de una cuenta que tenga L4D2."
+  echo "ERROR: SteamCMD no dejó srcds_run (red/DNS, o Valve rechazó el login anónimo)." >&2
+  echo "    Si el log dice 'needs to be online' / 'Couldn't resolve host name': VPN o DNS." >&2
+  echo "    Si dice Invalid platform / Missing configuration: STEAM_USER/STEAM_PASS de una cuenta con L4D2." >&2
+  sleep 15
   exit 1
 fi
 
@@ -204,7 +231,9 @@ sv_maxcmdrate 30
 sv_hibernate_when_empty 0
 motd_enabled 1
 
-sm_cvar survivor_limit ${MAXPLAYERS}
+sm_cvar precache_all_survivors 1
+sm_cvar director_transition_timeout 50
+sm_cvar director_unfreeze_time 40
 sm_cvar l4d_perkmod_forcerandomperks 1
 
 exec banned_user.cfg
@@ -223,6 +252,33 @@ else
   echo ">>> Perkmod: no hay $PERKMOD_CFG (se crea al primer load del plugin)"
 fi
 
+# l4dmultislots pisa survivor_limit; no lo pongas en server.cfg.
+# Tutorial 8+ coop: min_survivors = cupo y bots extra al empezar la ronda.
+MULTISLOTS_CFG="$CFG_DIR/sourcemod/l4dmultislots.cfg"
+mkdir -p "$CFG_DIR/sourcemod"
+upsert_sm_cvar() {
+  local cfg="$1" key="$2" value="$3"
+  if [[ -f "$cfg" ]] && grep -qE "^[[:space:]]*${key}" "$cfg"; then
+    sed -i -E "s/^[[:space:]]*${key}.*/${key} \"${value}\"/" "$cfg"
+  else
+    echo "${key} \"${value}\"" >> "$cfg"
+  fi
+}
+if [[ ! -f "$MULTISLOTS_CFG" ]]; then
+  echo ">>> l4dmultislots: creando $MULTISLOTS_CFG (max/min=${MAXPLAYERS}, roundstart=1)"
+  cat > "$MULTISLOTS_CFG" <<EOF
+// Ajustado por el entrypoint (tutorial 8+ Survivors In Coop).
+l4d_multislots_max_survivors "${MAXPLAYERS}"
+l4d_multislots_min_survivors "${MAXPLAYERS}"
+l4d_multislots_spawn_survivors_roundstart "1"
+EOF
+else
+  echo ">>> l4dmultislots: max/min=${MAXPLAYERS} spawn_roundstart=1 en $MULTISLOTS_CFG"
+  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_max_survivors "${MAXPLAYERS}"
+  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_min_survivors "${MAXPLAYERS}"
+  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_spawn_survivors_roundstart "1"
+fi
+
 DROP="/home/steam/addons-drop"
 if [[ -d "$DROP/addons" ]]; then
   echo ">>> Copiando addons-drop (plugins y extras)"
@@ -231,12 +287,17 @@ if [[ -d "$DROP/addons" ]]; then
 fi
 
 # nextmap.smx es de SourceMod (CS/TF2); en L4D2 no funciona y spamea errores.
+# ABM / SuperVersus / bebop chocan con l4dmultislots.
 SM_PLUGINS="$GAME_DIR/left4dead2/addons/sourcemod/plugins"
-if [[ -f "$SM_PLUGINS/nextmap.smx" ]]; then
-  mkdir -p "$SM_PLUGINS/disabled"
-  mv -f "$SM_PLUGINS/nextmap.smx" "$SM_PLUGINS/disabled/"
-  echo ">>> SourceMod: nextmap.smx → plugins/disabled"
-fi
+mkdir -p "$SM_PLUGINS/disabled"
+for name in nextmap.smx abm.smx superversus.smx l4d_superversus.smx bebop.smx \
+    l4d_botscontrol.smx l4d_bots_control.smx character_manager.smx \
+    l4d_character_manager.smx; do
+  if [[ -f "$SM_PLUGINS/$name" ]]; then
+    mv -f "$SM_PLUGINS/$name" "$SM_PLUGINS/disabled/"
+    echo ">>> SourceMod: $name → plugins/disabled"
+  fi
+done
 
 GEOIP_DIR="$GAME_DIR/left4dead2/addons/sourcemod/configs/geoip"
 GEOIP_DB="$GEOIP_DIR/GeoLite2-City.mmdb"

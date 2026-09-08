@@ -35,7 +35,7 @@ export default function HomePage() {
             servidor dedicado Linux
           </strong>
           , no “Local server” desde el menú. Encima van L4DToolZ (abre el
-          cupo) y ABM (spawnea supervivientes de más).
+          cupo) y la pila 8+ coop de Harry (l4dmultislots + fixes 5+).
         </p>
         <div className="mt-6 flex flex-wrap gap-2">
           <Button nativeButton={false} render={<Link href="/asistente" />}>
@@ -93,8 +93,9 @@ export default function HomePage() {
               <CardDescription>Si no quieres SSH.</CardDescription>
             </CardHeader>
             <CardContent className="text-sm leading-relaxed text-muted-foreground">
-              Pides un slot de L4D2 con SourceMod, subes L4DToolZ y ABM, y
-              pones <code className="text-foreground">-maxplayers 8</code> en
+              Pides un slot de L4D2 con SourceMod, subes L4DToolZ y
+              l4dmultislots, y pones{" "}
+              <code className="text-foreground">-maxplayers 8</code> en
               el comando de arranque. Más caro, mismo stack. No hace magia:
               sin L4DToolZ el 5º sigue fuera.
             </CardContent>
@@ -109,8 +110,8 @@ export default function HomePage() {
         <p className="mb-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Subir <code>sv_maxplayers</code> no alcanza: el binario rechaza la
           quinta conexión. Hace falta un unlocker de motor y un plugin que
-          cree personajes. SuperVersus sirve; ABM se porta mejor en campaña
-          8+.
+          cree personajes. Este kit sigue el tutorial 8+ Survivors In Coop:
+          l4dmultislots, no ABM ni SuperVersus.
         </p>
         <StackDiagram />
       </section>
@@ -125,11 +126,11 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="grid gap-3 text-sm leading-relaxed text-muted-foreground">
             <p>
-              SteamCMD anónimo, MetaMod 1.12, SourceMod 1.12 y L4DToolZ 2.2.0
+              SteamCMD anónimo, MetaMod 1.12, SourceMod 1.12, L4DToolZ 2.2.0
               (fork de accelerator74; el zip viejo de AlliedModders ya no
-              carga). ABM lo dejas tú en{" "}
-              <code className="text-foreground">server/addons-drop</code>{" "}
-              porque AlliedModders bloquea descargas automáticas.
+              carga) y la pila 8+ Survivors In Coop. No pongas ABM en{" "}
+              <code className="text-foreground">server/addons-drop</code>
+              : choca con l4dmultislots y el arranque lo mueve a disabled.
             </p>
             <CodeBlock
               filename="en la raíz del repo"

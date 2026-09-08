@@ -31,8 +31,16 @@ WORKDIR /home/steam
 RUN mkdir -p /home/steam/steamcmd /home/steam/l4d2 \
     && curl -fsSL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" \
         | tar -xz -C /home/steam/steamcmd
+# Auto-update de SteamCMD en el build (red del daemon). Evita el self-update a ciegas al arrancar.
+RUN /home/steam/steamcmd/steamcmd.sh +quit \
+    || /home/steam/steamcmd/steamcmd.sh +quit \
+    || true
 
-COPY --chmod=755 entrypoint.sh install-addons.sh install-workshop.sh expand-workshop.py /home/steam/
+COPY --chmod=755 entrypoint.sh install-addons.sh install-8plus.sh install-workshop.sh expand-workshop.py /home/steam/
+COPY gamedata-drop /home/steam/gamedata-drop
+# Windows Git checkout is CRLF; Linux then looks for `bash\r`.
+RUN sed -i 's/\r$//' /home/steam/entrypoint.sh /home/steam/install-addons.sh \
+        /home/steam/install-8plus.sh /home/steam/install-workshop.sh /home/steam/expand-workshop.py
 COPY cfg /home/steam/defaults/cfg
 
 EXPOSE 27016/udp 27016/tcp
