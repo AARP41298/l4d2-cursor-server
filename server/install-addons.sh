@@ -19,7 +19,9 @@ SM_URL="${SM_URL:-https://github.com/alliedmodders/sourcemod/releases/download/1
 MMS_LATEST_PTR="${MMS_LATEST_PTR:-https://mms.alliedmods.net/mmsdrop/1.12/mmsource-latest-linux}"
 SM_LATEST_PTR="${SM_LATEST_PTR:-https://sm.alliedmods.net/smdrop/1.12/sourcemod-latest-linux}"
 # Pinned: el zip histórico de AlliedModders no carga en L4D2 actual.
-L4DTOOLZ_URL="${L4DTOOLZ_URL:-https://github.com/accelerator74/l4dtoolz/releases/download/2.2.0/l4dtoolz-l4d2-linux-ef2a8df.tar.gz}"
+# El build "linux" pide GLIBC 2.38; Debian Bookworm trae 2.36 y MetaMod
+# no carga el .so (el cliente entonces ve 4/4). oldlinux sí enlaza.
+L4DTOOLZ_URL="${L4DTOOLZ_URL:-https://github.com/accelerator74/l4dtoolz/releases/download/2.2.0/l4dtoolz-l4d2-oldlinux-ef2a8df.tar.gz}"
 
 curl_get() {
   curl -fsSL --retry 3 --retry-delay 2 \
@@ -129,9 +131,7 @@ install_mm_sm_l4dtoolz() {
   SM_TAR="$(download_addon "$SM_URL" "$SM_LATEST_PTR" "sourcemod-")"
   tar -xzf "$SM_TAR" -C "$L4D2"
 
-  echo ">>> L4DToolZ 2.2.0 (accelerator74)"
-  L4DTOOLZ_TAR="$(download_addon "$L4DTOOLZ_URL" "" "l4dtoolz-")"
-  tar -xzf "$L4DTOOLZ_TAR" -C "$L4D2"
+  install_l4dtoolz
 
   ADMINS="$SM/configs/admins_simple.ini"
   if [[ -f "$ADMINS" ]] && ! grep -q "STEAM_1:0:0000" "$ADMINS"; then
@@ -145,5 +145,34 @@ install_mm_sm_l4dtoolz() {
   echo ">>> MetaMod + SourceMod + L4DToolZ listos"
 }
 
+l4dtoolz_so="$L4D2/addons/l4dtoolz/l4dtoolz_mm.so"
+
+l4dtoolz_glibc_ok() {
+  [[ -f "$l4dtoolz_so" ]] || return 1
+  ! ldd "$l4dtoolz_so" 2>&1 | grep -q 'GLIBC_.*not found'
+}
+
+install_l4dtoolz() {
+  echo ">>> L4DToolZ 2.2.0 (accelerator74, oldlinux / glibc < 2.38)"
+  L4DTOOLZ_TAR="$(download_addon "$L4DTOOLZ_URL" "" "l4dtoolz-")"
+  tar -xzf "$L4DTOOLZ_TAR" -C "$L4D2"
+}
+
 install_mm_sm_l4dtoolz
+
+# El skip de MM/SM deja un .so "linux" viejo en el volumen; sin esto el
+# cliente sigue mostrando 0/4 aunque status diga 8 max.
+if l4dtoolz_glibc_ok; then
+  echo ">>> L4DToolZ: $l4dtoolz_so enlaza con la glibc de esta imagen"
+else
+  echo ">>> L4DToolZ: glibc incompatible o falta el .so; se instala oldlinux"
+  L4DTOOLZ_URL="https://github.com/accelerator74/l4dtoolz/releases/download/2.2.0/l4dtoolz-l4d2-oldlinux-ef2a8df.tar.gz"
+  install_l4dtoolz
+  if l4dtoolz_glibc_ok; then
+    echo ">>> L4DToolZ: $l4dtoolz_so enlaza con la glibc de esta imagen"
+  else
+    echo "ERROR: L4DToolZ no carga (ldd/glibc). El navegador del cliente verá 4." >&2
+  fi
+fi
+
 /home/steam/install-8plus.sh "$GAME_DIR"

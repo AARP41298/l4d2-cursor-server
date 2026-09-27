@@ -35,20 +35,30 @@ export default function ConectarPage() {
           </CardHeader>
           <CardContent className="grid gap-3 text-sm leading-relaxed text-muted-foreground">
             <ol className="grid list-decimal gap-2 pl-4">
-              <li>Mutations → 8 Player Lobby.</li>
-              <li>Crear lobby y en settings poner Campaign (o Versus).</li>
+              <li>
+                Lobby de 4: Campaign normal, sin el mod. Hasta 8: Mutations →
+                8 Player Lobby.
+              </li>
+              <li>Settings: Campaign (o Versus).</li>
               <li>
                 Servidor: Best Available Dedicated. Nunca Official ni Local.
               </li>
-              <li>En consola, antes de listo:</li>
+              <li>
+                Dedicated vacío: en <code>status</code> debe decir{" "}
+                <code>unreserved</code>.
+              </li>
+              <li>En consola, antes de listo (IP <code>public</code> de status):</li>
             </ol>
             <CodeBlock
               filename="consola del host"
               code="mm_dedicated_force_servers TU.IP.PUBLICA:27016"
             />
             <p>
-              Si el lobby se va a un oficial, no pegaste el force o el
-              dedicated no está listo en Steam.
+              No uses 127.0.0.1: Steam matchmaking no ve localhost. Si el
+              lobby se va a un oficial, el force no pegó, el puerto 27016 no
+              está abierto, o el dedicated tiene{" "}
+              <code className="text-foreground">sv_force_unreserved 1</code>{" "}
+              (L4DToolZ no acepta la reserva).
             </p>
           </CardContent>
         </Card>

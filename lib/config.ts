@@ -62,7 +62,7 @@ export type ServerSettings = {
   rconPassword: string;
   svPassword: string;
   steamGroup: string;
-  publicServer: boolean;
+  svLan: 0 | 1;
 };
 
 export const DEFAULT_SETTINGS: ServerSettings = {
@@ -75,7 +75,7 @@ export const DEFAULT_SETTINGS: ServerSettings = {
   rconPassword: "",
   svPassword: "",
   steamGroup: "",
-  publicServer: false,
+  svLan: 0,
 };
 
 export function clampPlayers(n: number): number {
@@ -112,7 +112,8 @@ SRCDS_REGION=${s.region}
 SRCDS_RCONPW=${quote(s.rconPassword || "cambia-esto")}
 SRCDS_PW=${quote(s.svPassword)}
 SRCDS_STEAMGROUP=${s.steamGroup}
-SRCDS_LAN=${s.publicServer ? "0" : "0"}
+# 0 = internet (Steam / connect desde fuera). 1 = solo LAN.
+SRCDS_LAN=${s.svLan}
 # Mapas Workshop (colección del gist). Vacío = no baja mapas.
 WORKSHOP_IDS=2233971331
 FORCE_WORKSHOP_UPDATE=0
@@ -137,13 +138,13 @@ ${passwordLine}
 sv_maxplayers ${s.maxPlayers}
 sv_visiblemaxplayers ${visible}
 sv_removehumanlimit 1
-sv_force_unreserved 1
-sv_allow_lobby_connect_only 0
+sv_force_unreserved 0
+sv_allow_lobby_connect_only 1
 
 mp_gamemode "${s.gamemode}"
 sv_gametypes "coop,realism,versus,survival,scavenge"
 sv_consistency 0
-sv_lan 0
+sv_lan ${s.svLan}
 sv_region ${s.region}
 sv_voiceenable 1
 sv_alltalk 0
@@ -167,6 +168,7 @@ sm_cvar director_transition_timeout 50
 sm_cvar director_unfreeze_time 40
 sm_cvar z_max_player_zombies ${s.gamemode === "versus" ? Math.min(s.maxPlayers, 18) : 4}
 sm_cvar l4d_perkmod_forcerandomperks 1
+sm_cvar l4d_multislots_steamid_validate ${s.svLan === 1 ? 0 : 1}
 
 exec banned_user.cfg
 exec banned_ip.cfg
@@ -176,10 +178,11 @@ writeip
 }
 
 export function generateMultislotsCfg(s: ServerSettings): string {
-  return `// cfg/sourcemod/l4dmultislots.cfg — tutorial 8+ Survivors In Coop
+  return `// cfg/sourcemod/l4dmultislots.cfg — 4 al inicio; bots extra al unirse
 l4d_multislots_max_survivors "${s.maxPlayers}"
-l4d_multislots_min_survivors "${s.maxPlayers}"
-l4d_multislots_spawn_survivors_roundstart "1"
+l4d_multislots_min_survivors "4"
+l4d_multislots_spawn_survivors_roundstart "0"
+l4d_multislots_steamid_validate "${s.svLan === 1 ? 0 : 1}"
 `;
 }
 
@@ -215,6 +218,7 @@ export function generateComposeSnippet(s: ServerSettings): string {
       SRCDS_RCONPW: ${quote(s.rconPassword || "cambia-esto")}
       SRCDS_PW: ${quote(s.svPassword)}
       SRCDS_STEAMGROUP: "${s.steamGroup}"
+      SRCDS_LAN: "${s.svLan}"
       WORKSHOP_IDS: "2233971331"
       FORCE_8PLUS_UPDATE: "0"
     volumes:

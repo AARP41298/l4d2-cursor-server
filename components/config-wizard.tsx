@@ -238,17 +238,17 @@ export function ConfigWizard() {
 
           <div className="flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2">
             <div>
-              <Label htmlFor="public">Listar en el navegador público</Label>
+              <Label htmlFor="lan">Solo LAN (sv_lan)</Label>
               <p className="text-xs text-muted-foreground">
-                Mejor un grupo Steam o IP directa. El internet público de L4D2
-                está lleno de servidores basura.
+                Apagado (0): Steam y connect desde internet. Encendido (1):
+                solo la red local; no autentica con Steam.
               </p>
             </div>
             <Switch
-              id="public"
-              checked={settings.publicServer}
+              id="lan"
+              checked={settings.svLan === 1}
               onCheckedChange={(checked) =>
-                patch({ publicServer: Boolean(checked) })
+                patch({ svLan: checked ? 1 : 0 })
               }
             />
           </div>

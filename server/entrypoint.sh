@@ -198,6 +198,11 @@ PW_VALUE="${SRCDS_PW:-}"
 REGION_VALUE="${SRCDS_REGION:-255}"
 GAMEMODE_VALUE="${SRCDS_GAMEMODE:-coop}"
 STEAMGROUP_VALUE="${SRCDS_STEAMGROUP:-0}"
+LAN_VALUE="${SRCDS_LAN:-0}"
+[[ "$LAN_VALUE" == "1" ]] || LAN_VALUE=0
+# sv_lan 1 nunca autentica Steam; MultiSlots bloquea !join si esto queda en 1.
+STEAMID_VALIDATE=1
+[[ "$LAN_VALUE" == "1" ]] && STEAMID_VALIDATE=0
 
 cat > "$CFG_DIR/server.cfg" <<EOF
 hostname "${HOSTNAME_VALUE//\"/}"
@@ -207,13 +212,13 @@ sv_password "${PW_VALUE//\"/}"
 sv_maxplayers ${MAXPLAYERS}
 sv_visiblemaxplayers ${MAXPLAYERS}
 sv_removehumanlimit 1
-sv_force_unreserved 1
-sv_allow_lobby_connect_only 0
+sv_force_unreserved 0
+sv_allow_lobby_connect_only 1
 
 mp_gamemode "${GAMEMODE_VALUE}"
 sv_gametypes "coop,realism,versus,survival,scavenge"
 sv_consistency 0
-sv_lan 0
+sv_lan ${LAN_VALUE}
 sv_region ${REGION_VALUE}
 sv_voiceenable 1
 sv_alltalk 0
@@ -235,6 +240,7 @@ sm_cvar precache_all_survivors 1
 sm_cvar director_transition_timeout 50
 sm_cvar director_unfreeze_time 40
 sm_cvar l4d_perkmod_forcerandomperks 1
+sm_cvar l4d_multislots_steamid_validate ${STEAMID_VALIDATE}
 
 exec banned_user.cfg
 exec banned_ip.cfg
@@ -253,7 +259,8 @@ else
 fi
 
 # l4dmultislots pisa survivor_limit; no lo pongas en server.cfg.
-# Tutorial 8+ coop: min_survivors = cupo y bots extra al empezar la ronda.
+# 4 al empezar; el 5º+ spawnea un bot al unirse. roundstart 1 + min=cupo = 8 bots desde el mapa 1.
+MULTISLOTS_MIN="${L4D_MULTISLOTS_MIN:-4}"
 MULTISLOTS_CFG="$CFG_DIR/sourcemod/l4dmultislots.cfg"
 mkdir -p "$CFG_DIR/sourcemod"
 upsert_sm_cvar() {
@@ -265,18 +272,20 @@ upsert_sm_cvar() {
   fi
 }
 if [[ ! -f "$MULTISLOTS_CFG" ]]; then
-  echo ">>> l4dmultislots: creando $MULTISLOTS_CFG (max/min=${MAXPLAYERS}, roundstart=1)"
+  echo ">>> l4dmultislots: creando $MULTISLOTS_CFG (max=${MAXPLAYERS} min=${MULTISLOTS_MIN} roundstart=0 steamid_validate=${STEAMID_VALIDATE})"
   cat > "$MULTISLOTS_CFG" <<EOF
-// Ajustado por el entrypoint (tutorial 8+ Survivors In Coop).
+// 4 al inicio; bots extra al unirse (hasta SRCDS_MAXPLAYERS).
 l4d_multislots_max_survivors "${MAXPLAYERS}"
-l4d_multislots_min_survivors "${MAXPLAYERS}"
-l4d_multislots_spawn_survivors_roundstart "1"
+l4d_multislots_min_survivors "${MULTISLOTS_MIN}"
+l4d_multislots_spawn_survivors_roundstart "0"
+l4d_multislots_steamid_validate "${STEAMID_VALIDATE}"
 EOF
 else
-  echo ">>> l4dmultislots: max/min=${MAXPLAYERS} spawn_roundstart=1 en $MULTISLOTS_CFG"
+  echo ">>> l4dmultislots: max=${MAXPLAYERS} min=${MULTISLOTS_MIN} spawn_roundstart=0 steamid_validate=${STEAMID_VALIDATE} en $MULTISLOTS_CFG"
   upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_max_survivors "${MAXPLAYERS}"
-  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_min_survivors "${MAXPLAYERS}"
-  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_spawn_survivors_roundstart "1"
+  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_min_survivors "${MULTISLOTS_MIN}"
+  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_spawn_survivors_roundstart "0"
+  upsert_sm_cvar "$MULTISLOTS_CFG" l4d_multislots_steamid_validate "${STEAMID_VALIDATE}"
 fi
 
 DROP="/home/steam/addons-drop"
@@ -324,6 +333,6 @@ exec ./srcds_run \
   -port $PORT \
   -maxplayers "$MAXPLAYERS" \
   +map "$STARTMAP" \
-  +sv_lan 0 \
+  +sv_lan "$LAN_VALUE" \
   -norestart \
   -nowatchdog

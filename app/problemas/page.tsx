@@ -32,8 +32,9 @@ export default function ProblemasPage() {
             <CodeBlock code={"meta list\nsm plugins list\nstatus"} />
             <p>
               L4DToolZ tiene que salir Running. Si no está, el tar no se
-              extrajo en <code>left4dead2/addons</code> o metiste el .dll en
-              Linux. Confirma{" "}
+              extrajo en <code>left4dead2/addons</code>, metiste el .dll en
+              Linux, o cargaste el build <code>linux</code> en Debian
+              (pide glibc 2.38; este repo usa <code>oldlinux</code>). Confirma{" "}
               <code>-maxplayers 8</code> en el comando, no{" "}
               <code>+maxplayers</code>. El mensaje{" "}
               <code>Human player limit reached (4/4)</code> es lo mismo: el

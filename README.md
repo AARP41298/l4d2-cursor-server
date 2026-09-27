@@ -3,7 +3,7 @@
 Left 4 Dead 2 deja campaña en **4** y Versus en **8**. Subir `sv_maxplayers` no basta: el binario rechaza la quinta conexión. La forma estable es un **dedicated Linux** con tres capas encima:
 
 1. **MetaMod + SourceMod** — cargan plugins.
-2. **L4DToolZ** (fork de [accelerator74](https://github.com/accelerator74/l4dtoolz), 2.2.0) — abre el cupo del motor. El zip viejo de AlliedModders ya no carga.
+2. **L4DToolZ** (fork de [accelerator74](https://github.com/accelerator74/l4dtoolz), 2.2.0 **oldlinux**) — abre el cupo del motor. El zip `linux` pide glibc 2.38 y en Debian no carga (el cliente se queda en 4/4). El zip viejo de AlliedModders tampoco.
 3. **[8+ Survivors In Coop](https://github.com/fbef0102/Game-Private_Plugin/tree/main/Tutorial_教學區/English/Game/L4D2/8+_Survivors_In_Coop)** (Harry) — Stripper, Left 4 DHooks, Actions, **l4dmultislots**, **l4d_unreservelobby** y los fixes 5+. Sin esto el 5º entra de espectador o Valve lo corta en 4/4. No uses ABM ni SuperVersus: chocan con l4dmultislots.
 
 Este repo trae Docker para el dedicated, configs listas y un asistente web que genera `.env` / `server.cfg`.
@@ -21,7 +21,7 @@ Un listen server («Local») con `-insecure` sirve para una noche. SourceMod no 
 
 ```bash
 cp .env.example .env
-# edita SRCDS_HOSTNAME, SRCDS_RCONPW y SRCDS_MAXPLAYERS
+# edita SRCDS_HOSTNAME, SRCDS_RCONPW, SRCDS_MAXPLAYERS y SRCDS_LAN
 docker compose up --build
 ```
 
@@ -46,11 +46,11 @@ Cvars del tutorial en `server.cfg`: `precache_all_survivors 1`, `sv_consistency 
 
 ```text
 l4d_multislots_max_survivors "8"
-l4d_multislots_min_survivors "8"
-l4d_multislots_spawn_survivors_roundstart "1"
+l4d_multislots_min_survivors "4"
+l4d_multislots_spawn_survivors_roundstart "0"
 ```
 
-(el `8` es `SRCDS_MAXPLAYERS`). Para recompilar la pila: `FORCE_8PLUS_UPDATE=1`.
+Empiezas con **4**. El 5º–8º spawnea un superviviente al `connect` / `!join`. `max` es `SRCDS_MAXPLAYERS`. Si quieres 8 bots desde el mapa 1 (como el tutorial de Harry): `L4D_MULTISLOTS_MIN=8` y `l4d_multislots_spawn_survivors_roundstart "1"`. Para recompilar la pila: `FORCE_8PLUS_UPDATE=1`.
 
 En consola comprueba el stack:
 
@@ -156,10 +156,18 @@ connect 192.168.68.106:27016
 
 Otra PC en casa: `connect 192.168.68.106:27016`. Por Internet: `connect 189.243.210.111:27016` (UDP **y** TCP 27016 del router a `192.168.68.106`).
 
-El lobby de Valve no conoce un dedicated de 8 en campaña.
+El lobby de Valve no conoce un dedicated de 8 en campaña, pero **sí** puede mandar un lobby de 4 (sin el mod) si el dedicated acepta reserva.
 
-- **Hasta 8:** el host puede usar la mutación de Workshop *8 Player Lobby*, settings en Campaign, servidor *Best Available Dedicated*, y en consola (`mm_dedicated_force_servers` con la **misma** IP que usarías en `connect`).
-- **Siempre funciona (y es obligatorio desde el 9º):** `connect` como arriba.
+En `status` el server tiene que estar **unreserved** (vacío). En el cliente, lobby Campaign normal, servidor *Best Available Dedicated* (nunca Official ni Local), y **antes de listo**:
+
+```text
+mm_dedicated_force_servers 189.243.210.111:27016
+```
+
+Esa IP:puerto es la línea `public` de `status`, no `127.0.0.1` ni el `172.x` de Docker: Steam matchmaking corre fuera de tu casa. UDP y TCP 27016 abiertos. Si el lobby se va a un oficial, el force no pegó o el dedicated sigue con `sv_force_unreserved 1` (L4DToolZ ignora la reserva).
+
+- **Hasta 8 en el lobby:** mutación Workshop *8 Player Lobby* + el mismo `mm_dedicated_force_servers`.
+- **Siempre funciona (y es obligatorio desde el 9º):** `connect` como arriba. `l4d_unreservelobby` suelta la reserva cuando hay 4 en coop para que el 5º entre por IP.
 
 Si hay `sv_password`, primero `password la-clave` y luego `connect`.
 
