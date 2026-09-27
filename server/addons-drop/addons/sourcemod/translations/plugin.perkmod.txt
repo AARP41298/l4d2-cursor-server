@@ -1,5 +1,10 @@
 ﻿"Phrases"
 {
+	"PerkmodNickname"
+	{
+		"en"	"Perkmod"
+	}
+
 	"WelcomeMessageHint"
 	{
 		"en"	"Welcome to Perkmod!"
@@ -661,13 +666,13 @@
 
 	"YourPerksPanel"
 	{
-		"en"	"Xtreme's Perkmod: Your perks for this round"
-		"de"	"Xtreme's Perkmod: Deine Staerken diese Runde"
-		"it"	"Xtreme's Perkmod: I tuoi bonus per questo round"
-		"da"	"Xtreme's Perkmod: Dine perks for denne runde"
-		"ru"	"Xtreme's Perkmod: Ваши перки на этот раунд"
-		"fr"	"Xtreme's Perkmod: Votre perks pour cette ronde"
-		"es"	"Xtreme's Perkmod: Tus perks para esta ronda"
+		"en"	"Perkmod: Your perks for this round"
+		"de"	"Perkmod: Deine Staerken diese Runde"
+		"it"	"Perkmod: I tuoi bonus per questo round"
+		"da"	"Perkmod: Dine perks for denne runde"
+		"ru"	"Perkmod: Ваши перки на этот раунд"
+		"fr"	"Perkmod: Votre perks pour cette ronde"
+		"es"	"Perkmod: Tus perks para esta ronda"
 	}
 
 	"DoubleTapDescriptionText"

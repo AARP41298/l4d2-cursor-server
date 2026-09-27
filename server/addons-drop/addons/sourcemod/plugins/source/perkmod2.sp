@@ -280,7 +280,7 @@
 //info
 public Plugin:myinfo=
 {
-	name="PerkMod (traduccion ESP: Gravedancer)",
+	name="PerkMod (traduccion ESP: Gravedancer, multilanguage: AARP41298)",
 	author="tPoncho (DB by muukis)",
 	description="Adds Call Of Duty-style perks for L4D",
 	version=PLUGIN_VERSION,
@@ -4819,7 +4819,7 @@ public Event_PlayerFirstSpawn (Handle:event, const String:name[], bool:dontBroad
 	{
 		CreateTimer(3.0,Timer_ShowTopMenu,iCid);
 		PrintHintText(iCid,"%t", "WelcomeMessageHint");
-		PrintToChat(iCid,"\x03[Xtreme] %t", "WelcomeMessageChat");
+		PrintToChat(iCid,"\x03[%t] %t", "PerkmodNickname", "WelcomeMessageChat");
 	}
 }
 
@@ -11986,7 +11986,7 @@ public Menu_ChooseConfirm (Handle:topmenu, MenuAction:action, param1, param2)
 			case 1:
 			{
 				g_iConfirm[param1]=1;
-				PrintToChat(param1,"\x03[Xtreme] %t", "ConfirmedMessage");
+				PrintToChat(param1,"\x03[%t] %t", "PerkmodNickname", "ConfirmedMessage");
 				Event_Confirm_Unbreakable(param1);
 				Event_Confirm_Grenadier(param1);
 				Event_Confirm_ChemReliant(param1);
@@ -12021,7 +12021,7 @@ public Menu_ChooseConfirm_Inf (Handle:topmenu, MenuAction:action, param1, param2
 			case 1:
 			{
 				g_iConfirm[param1]=1;
-				PrintToChat(param1,"\x03[Xtreme] %t", "ConfirmedMessage");
+				PrintToChat(param1,"\x03[%t] %t", "PerkmodNickname", "ConfirmedMessage");
 
 				SaveDefaultPerks(param1);
 			}
